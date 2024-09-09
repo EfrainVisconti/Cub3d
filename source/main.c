@@ -50,8 +50,11 @@ int	main(int argc, char **argv)
 {
 	t_map	map;
 
-	(void)argc;
-	(void)argv;
+	if (argc != 2)
+		return (ft_printf("Error:\nWrong number of arguments!"), 1);
+	if (valid_extension(argv[1]) == FALSE)
+		return (ft_printf("Error:\nMap format is not .cub"), 1);
+	check_cub_file(&map, argv[1]);
 	ft_init_cub(&map);
 	ft_game(map);
 	ft_free_cub("Game ended\n", &map, FREE_ALL);

@@ -26,7 +26,7 @@
 /* Game window settings */
 # define SCREENWIDTH 1280
 # define SCREENHEIGTH 960
-/* The .xpm i have are this size :)*/
+/* The .xpm i have are this size :*/
 # define TEXTUREWIDTH 64
 # define TEXTUREHEIGHT 64
 /* For a FOV of 60 degrees -> tan(60/2) = 0.577*/
@@ -99,11 +99,11 @@ typedef struct s_map
 
 /*
  img: The main reference to the image that will be used in rendering.
- addr: A pointer to the image data, containing the pixel colors. 
+ addr: A pointer to the image data, containing the pixel colors.
        This is used to access individual pixels during rendering.
  bits_per_pixel (bpp): Indicates how many bits are used to represent the color
-                       of each pixel. 
-                       For example, 32 bits per pixel is common for 
+                       of each pixel.
+                       For example, 32 bits per pixel is common for
 	                   images with RGBA color channels.
  size_line: The number of bytes needed to store a complete line of pixels in
               the image. This is important for calculating the memory position
@@ -139,7 +139,7 @@ typedef struct s_ray
 /* dir and plane use the player initial position and direction as reference
    on an euclydian plane. Given that that means working on a Unitary circle
    ( radius == 1 ) the max and min values go from -1 to 1.
-   Pos, in the other hand, references the player's current position on the 
+   Pos, in the other hand, references the player's current position on the
    map grid.
 */
 typedef struct s_player
@@ -173,7 +173,7 @@ typedef struct s_data
 
 /*
  wallx: The horizontal position on the wall texture where the ray hits.
-              Calculated using the player's position and the distance to the 
+              Calculated using the player's position and the distance to the
 			  wall. Adjusted to be in the range [0, 1) within the texture.
  texx: Horizontal coordinate in the texture for the current pixel on the screen
  	   Calculated by multiplying `wallx` by the texture width [TEXTUREWIDTH].
@@ -212,5 +212,13 @@ int		ft_press_key(int key, void *param);
 int		ft_release_key(int key, void *param);
 void	ft_move_rotate(t_data *dt, double rotspeed, int sign);
 void	ft_move_forward_backward(t_data *dt, double movespeed, int sign);
+
+/* Parsing */
+int		valid_extension(char *str);
+int		check_cub_file(t_map *map, char *str);
+int		check_line(t_map *map, char *line);
+int		is_horizontal_wall(char *str);
+char	*tabs_handler(char *str, int i, int j, int tabs);
+int		ft_strcmp(char *s1, char *s2);
 
 #endif

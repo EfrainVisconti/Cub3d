@@ -12,18 +12,18 @@
 
 #include "cube.h"
 
-/* 
+/*
 
 ft_init_side:
 This function initializes the side distances for the raycasting algorithm.
-Depending on the direction of the ray [raydir[X_AXIS], raydir[Y_AXIS]], 
-it calculates the initial distance from the player position to the first 
-grid line along the X and Y axes. 
+Depending on the direction of the ray [raydir[X_AXIS], raydir[Y_AXIS]],
+it calculates the initial distance from the player position to the first
+grid line along the X and Y axes.
 [deltadist[X_AXIS], deltadist[Y_AXIS]] need to be positive for this calculus,
 thus the fabs.
 The [step[X_AXIS], step[Y_AXIS]] variables are set based on the ray
 direction, determining whether the ray moves in a positive or negative
-direction along the axes. 
+direction along the axes.
 
 The [sidedist[X_AXIS], sidedist[Y_AXIS]] variables represent the distance the
 ray has to travel from its start position to the next X or Y side of the grid.
@@ -55,7 +55,7 @@ void	ft_init_side(t_data data, t_ray *ray)
 	}
 }
 
-/* 
+/*
 
  ft_init_ray:
  rayscreenposx = Calculates the ray position on the X axis of the window
@@ -65,7 +65,7 @@ void	ft_init_side(t_data data, t_ray *ray)
  [deltadist[X_AXIS], deltadist[Y_AXIS]] determine de increment  for each
  cuadricule
  The `ft_init_side` function is called to further initialize the ray's side distances.
- 
+
  */
 t_ray	ft_init_ray(t_data data, int x)
 {
@@ -73,6 +73,7 @@ t_ray	ft_init_ray(t_data data, int x)
 
 	ray.hit = 0;
 	ray.rayscreenposx = (2.0 * x / (double)data.screenwidth) - 1.0;
+
 	ray.raydir[X_AXIS] = data.player.dir[X_AXIS] + (data.player.plane[X_AXIS] * ray.rayscreenposx);
 	ray.raydir[Y_AXIS] = data.player.dir[Y_AXIS] + (data.player.plane[Y_AXIS] * ray.rayscreenposx);
 	ray.map[X_AXIS] = (int)data.player.pos[X_AXIS];
@@ -89,7 +90,7 @@ t_ray	ft_init_ray(t_data data, int x)
 	return (ray);
 }
 
-/* 
+/*
 
  ft_raycasting_dda_algorithm:
  This function implements the Digital Differential Analyzer (DDA) algorithm,
@@ -99,7 +100,7 @@ t_ray	ft_init_ray(t_data data, int x)
  Bare in mind that [deltadist[X_AXIS], deltadist[Y_AXIS]] are constant for each
  and every square the ray crossess
  When the ray hits a wall, the loop stops, and the `ray->hit` flag is set.
- The perpendicular wall distance (`ray->perpwalldist`) is calculated to ensure 
+ The perpendicular wall distance (`ray->perpwalldist`) is calculated to ensure
  accurate rendering and to correct for fish-eye distortion.
 
 */
@@ -128,7 +129,7 @@ void	ft_raycasting_dda_algorithm(t_ray *ray, char **map)
 		ray->perpwalldist = (ray->sidedist[Y_AXIS] - ray->deltadist[Y_AXIS]);
 }
 
-/* 
+/*
 
 ft_get_draw_info:
 This function calculates the necessary information to draw the vertical stripe
@@ -136,7 +137,7 @@ on the screen for to the current ray. It determines the height of the line to
 be drawn [columnheight] based on the perpendicular wall distance [perpwalldist].
 The starting [drawstart] and ending [drawend] points of the line are computed
 to ensure it fits within the screen bounds.
-The wall texture and texture X coordinate are selected based on which side 
+The wall texture and texture X coordinate are selected based on which side
 of the wall was hit [side] and the exact location of the wall hit.
 
 the ray hit the right side of a vertical wall, so the texture coordinates should be reversed
@@ -170,17 +171,17 @@ void	ft_get_draw_info(t_data data, t_ray ray, t_draw *draw)
 		draw->texx = TEXTUREWIDTH - draw->texx - 1;
 }
 
-/* 
+/*
 
 ft_raycasting:
 This is the main function that iterates over each pixel column on the screen
 [screenwidth] to calculate and render the 3D view.
-For each column, it initializes a ray [ray], executes the DDA algorithm 
+For each column, it initializes a ray [ray], executes the DDA algorithm
 to determine where the ray hits a wall, calculates the necessary drawing
 information, and finally draws the corresponding line on the screen.
-This process repeats for every column on the screen, thereby forming the 
+This process repeats for every column on the screen, thereby forming the
 complete scene image from the player's perspective.
-This flow from ray initialization to scene rendering is the core of a 
+This flow from ray initialization to scene rendering is the core of a
 raycasting engine, crucial for generating the first-person perspective.
 
 */
