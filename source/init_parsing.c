@@ -6,20 +6,25 @@
 /*   By: usuario <usuario@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 14:50:42 by eviscont          #+#    #+#             */
-/*   Updated: 2024/09/10 17:21:40 by usuario          ###   ########.fr       */
+/*   Updated: 2024/09/10 18:44:53 by usuario          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube.h"
 
-int valid_extension(char *str)
+int valid_extension(char *str, int mode)
 {
 	int len;
 
 	len = ft_strlen(str);
-	if (len > 4)
+	if (mode == CUB && len > 4)
 	{
 		if (str[len - 1] == 'b' && str[len - 2] == 'u' && str[len - 3] == 'c' && str[len - 4] == '.')
+			return (TRUE);
+	}
+	else if (mode == XPM && len > 4)
+	{
+		if (str[len - 1] == 'm' && str[len - 2] == 'p' && str[len - 3] == 'x' && str[len - 4] == '.')
 			return (TRUE);
 	}
 	return (FALSE);
@@ -68,34 +73,36 @@ int	is_map_start(char *str)
 	return (TRUE);
 }
 
-static void	check_line_aux(char *line, char **splited, int flag)
+static void	check_line_aux(char *line, char **splited)
 {
-	if (!flag)
-	{
-		ft_printf("Error\n");
-		ft_printf("Invalid or duplicated element found\n");
-	}
-	else
-	{
-		ft_printf("Error\n");
-		ft_printf("Invalid map\n");
-	}
+	ft_printf("Error\n");
+	ft_printf("Invalid map or invalid/duplicated element found\n");
 	ft_free2dstr(splited);
 	free(line);
 }
 
 int	case_no(t_map *map, char **splited)
 {
-	
+	if (ft_arraylen(splited) == 2)
+	{
+		ft_printf("%s\n", splited[1]);
+		if (open(splited[1], O_RDONLY) == -1)
+			return (ft_printf("Error\nTexture NO not found\n"), FALSE);
+		if (!valid_extension(splited[1], XPM))
+			return (ft_printf("Error\nTexture NO invalid extension\n"), FALSE);
+		map->no1 = ft_strdup(splited[1]);
+		return (TRUE);
+	}
+	return (ft_printf("Error\nInvalid NO format\n"), FALSE);
 }
 
-int check_line(t_map *map, char *line, int flag)
+int check_line(t_map *map, char *line)
 {
 	char **splited;
 
 	splited = ft_split(line, ' ');
 	if (!ft_strcmp("NO", splited[0]) && !map->no1)
-		ft_printf("no\n");
+		case_no(map, splited);
 	else if ((!ft_strcmp("SO", splited[0]) && !map->so1))
 		ft_printf("so\n");
 	else if ((!ft_strcmp("WE", splited[0]) && !map->we1))
@@ -107,12 +114,9 @@ int check_line(t_map *map, char *line, int flag)
 	else if ((!ft_strcmp("C", splited[0]) && !map->c1))
 		ft_printf("c\n");
 	else if (is_map_start(splited[0]) == TRUE)
-	{
 		map->start_map = TRUE;
-		flag = 1;
-	}
 	else
-		return (check_line_aux(line, splited, flag), FALSE);
+		return (check_line_aux(line, splited), FALSE);
 	ft_free2dstr(splited);
 	free(line);
 	return (TRUE);
@@ -133,7 +137,7 @@ int check_cub_file(t_map *map, char *str)
 		{
 			if (ft_strcmp("\n", line) && !map->start_map)
 			{
-				if (!check_line(map, tabs_handler(line, -1, 0, 0), 0))
+				if (!check_line(map, tabs_handler(line, -1, 0, 0)))
 					return (free(line), FALSE);
 			}
 			if (map->start_map == TRUE)

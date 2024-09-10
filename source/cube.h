@@ -77,6 +77,10 @@
 #define FREE_TEXTURES 0
 #define FREE_ALL 1
 
+/* Valid_extension function modes */
+#define CUB 0
+#define XPM 1
+
 /*
  map: The map as in the .cub file
  gamemap: The map copy the game uses. The player is erased.
@@ -220,11 +224,12 @@ void	ft_move_rotate(t_data *dt, double rotspeed, int sign);
 void	ft_move_forward_backward(t_data *dt, double movespeed, int sign);
 
 /* Parsing */
-int		valid_extension(char *str);
+int		valid_extension(char *str, int mode);
 int		check_cub_file(t_map *map, char *str);
-int		check_line(t_map *map, char *line, int flag);
+int		check_line(t_map *map, char *line);
 int		is_map_start(char *str);
 char	*tabs_handler(char *str, int i, int j, int tabs);
 int		ft_strcmp(char *s1, char *s2);
+int		ft_arraylen(char **array);
 
 #endif
