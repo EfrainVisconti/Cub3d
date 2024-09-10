@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_parsing.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eviscont <eviscont@student.42.fr>          +#+  +:+       +#+        */
+/*   By: usuario <usuario@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 14:50:42 by eviscont          #+#    #+#             */
-/*   Updated: 2024/09/09 21:10:50 by eviscont         ###   ########.fr       */
+/*   Updated: 2024/09/10 17:21:40 by usuario          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,44 +51,71 @@ char *tabs_handler(char *str, int i, int j, int tabs)
 			aux[j++] = str[i];
 	}
 	aux[j] = '\0';
-	return (free(str), aux);
+	return (aux);
 }
 
-int	is_horizontal_wall(char *str)
+int	is_map_start(char *str)
 {
 	int	i;
 
 	i = 0;
 	while (str[i] != '\0')
 	{
-		if (str[i] != '1')
+		if (str[i] != '1' && str[i] != '0' && str[i] != '\n')
 			return (FALSE);
 		i++;
 	}
 	return (TRUE);
 }
 
-int check_line(t_map *map, char *line)
+static void	check_line_aux(char *line, char **splited, int flag)
+{
+	if (!flag)
+	{
+		ft_printf("Error\n");
+		ft_printf("Invalid or duplicated element found\n");
+	}
+	else
+	{
+		ft_printf("Error\n");
+		ft_printf("Invalid map\n");
+	}
+	ft_free2dstr(splited);
+	free(line);
+}
+
+int	case_no(t_map *map, char **splited)
+{
+	
+}
+
+int check_line(t_map *map, char *line, int flag)
 {
 	char **splited;
 
 	splited = ft_split(line, ' ');
-	if (ft_strcmp("NO", splited[0]) && !map->no)
-		putchar('c');
-	else if ((ft_strcmp("SO", splited[0]) && !map->so))
-		putchar('c');
-	else if ((ft_strcmp("WE", splited[0]) && !map->we))
-		putchar('c');
-	else if ((ft_strcmp("EA", splited[0]) && !map->ea))
-		putchar('c');
-	else if ((ft_strcmp("EA", splited[0]) && !map->ea))
-		putchar('c');
-	else if ((ft_strcmp("F", splited[0]) && !map->f))
-		putchar('c');
-	else if ((ft_strcmp("C", splited[0]) && !map->c))
-		putchar('c');
-	else if (is_horizontal_wall(splited[0]))
-
+	if (!ft_strcmp("NO", splited[0]) && !map->no1)
+		ft_printf("no\n");
+	else if ((!ft_strcmp("SO", splited[0]) && !map->so1))
+		ft_printf("so\n");
+	else if ((!ft_strcmp("WE", splited[0]) && !map->we1))
+		ft_printf("we\n");
+	else if ((!ft_strcmp("EA", splited[0]) && !map->ea1))
+		ft_printf("ea\n");
+	else if ((!ft_strcmp("F", splited[0]) && !map->f1))
+		ft_printf("f\n");
+	else if ((!ft_strcmp("C", splited[0]) && !map->c1))
+		ft_printf("c\n");
+	else if (is_map_start(splited[0]) == TRUE)
+	{
+		map->start_map = TRUE;
+		flag = 1;
+	}
+	else
+		return (check_line_aux(line, splited, flag), FALSE);
+	ft_free2dstr(splited);
+	free(line);
+	return (TRUE);
 }
 
 int check_cub_file(t_map *map, char *str)
@@ -98,18 +125,23 @@ int check_cub_file(t_map *map, char *str)
 
 	fd = open(str, O_RDONLY);
 	if (fd == -1)
-		return (ft_printf("Error\nFile not found"), FALSE);
+		return (ft_printf("Error\nFile not found\n"), FALSE);
 	while (1)
 	{
-		line = get_next_line(fd);
+		line = ft_get_next_line(fd);
 		if (line != NULL)
 		{
-			if (ft_strcmp("", line) && !map->start_map)
-				check_line(map, tabs_handler(line, -1, 0, 0));
-			free(line);
+			if (ft_strcmp("\n", line) && !map->start_map)
+			{
+				if (!check_line(map, tabs_handler(line, -1, 0, 0), 0))
+					return (free(line), FALSE);
+			}
+			if (map->start_map == TRUE)
+				ft_printf("we are in map: %s\n", line);
 		}
 		else
 			break;
+		free (line);
 	}
 	return (TRUE);
 }

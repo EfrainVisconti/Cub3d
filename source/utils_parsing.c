@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_parsing.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eviscont <eviscont@student.42.fr>          +#+  +:+       +#+        */
+/*   By: usuario <usuario@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 19:23:50 by eviscont          #+#    #+#             */
-/*   Updated: 2024/09/09 19:24:11 by eviscont         ###   ########.fr       */
+/*   Updated: 2024/09/10 15:44:11 by usuario          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,4 +21,3 @@ int	ft_strcmp(char *s1, char *s2)
 		idx++;
 	return ((unsigned char)s1[idx] - (unsigned char)s2[idx]);
 }
-

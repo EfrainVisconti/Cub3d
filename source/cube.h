@@ -89,11 +89,17 @@ typedef struct s_map
 	char		*so;
 	char		*we;
 	char		*ea;
+	char		*no1;
+	char		*so1;
+	char		*we1;
+	char		*ea1;
 	int			map_size[2];
 	int			player_position[2];
 	int			player_direction[2];
 	int			f;
 	int			c;
+	int			f1;
+	int			c1;
 	int			start_map;
 }				t_map;
 
@@ -216,8 +222,8 @@ void	ft_move_forward_backward(t_data *dt, double movespeed, int sign);
 /* Parsing */
 int		valid_extension(char *str);
 int		check_cub_file(t_map *map, char *str);
-int		check_line(t_map *map, char *line);
-int		is_horizontal_wall(char *str);
+int		check_line(t_map *map, char *line, int flag);
+int		is_map_start(char *str);
 char	*tabs_handler(char *str, int i, int j, int tabs);
 int		ft_strcmp(char *s1, char *s2);
 

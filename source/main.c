@@ -15,7 +15,6 @@
 /* initializes the cub struct with a hardcoded map and textures */
 void	ft_init_cub(t_map *map)
 {
-	ft_bzero(map, sizeof(t_map));
 	map->start_map = 0;
 	map->no = ft_strdup("assets/textures/NO.xpm");
 	map->so = ft_strdup("assets/textures/SO.xpm");
@@ -43,7 +42,7 @@ void	ft_init_cub(t_map *map)
 	map->player_position[Y_AXIS] = 3;
 	map->player_direction[X_AXIS] = 0;
 	map->player_direction[Y_AXIS] = -1;
-	map->start_map = 109;
+	//map->start_map = FALSE;
 }
 
 int	main(int argc, char **argv)
@@ -54,7 +53,11 @@ int	main(int argc, char **argv)
 		return (ft_printf("Error:\nWrong number of arguments!"), 1);
 	if (valid_extension(argv[1]) == FALSE)
 		return (ft_printf("Error:\nMap format is not .cub"), 1);
-	check_cub_file(&map, argv[1]);
+	ft_bzero(&map, sizeof(t_map));
+	if (!check_cub_file(&map, argv[1]))
+	{
+		return (EXIT_FAILURE);
+	}
 	ft_init_cub(&map);
 	ft_game(map);
 	ft_free_cub("Game ended\n", &map, FREE_ALL);

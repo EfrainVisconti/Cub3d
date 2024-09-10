@@ -22,7 +22,7 @@ OBJ_DIR        = source/
 BIN_DIR        = ./
 
 # Source files
-SRC_FILE       = main.c game.c raycasting.c textures.c draw.c move.c init_parsing.c
+SRC_FILE       = main.c game.c raycasting.c textures.c draw.c move.c init_parsing.c utils_parsing.c
 
 SRC            = $(addprefix $(SRC_DIR), $(SRC_FILE))
 OBJ_FILE       = $(SRC_FILE:.c=.o)
