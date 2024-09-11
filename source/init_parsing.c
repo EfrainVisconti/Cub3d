@@ -6,7 +6,7 @@
 /*   By: usuario <usuario@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 14:50:42 by eviscont          #+#    #+#             */
-/*   Updated: 2024/09/12 01:44:46 by usuario          ###   ########.fr       */
+/*   Updated: 2024/09/12 01:51:44 by usuario          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,21 +73,21 @@ int	is_map_start(char *str)
 	return (TRUE);
 }
 
-int	parse_floor_ceiling(t_map *map, char **splited, int mode)
-{
-	int i;
-	int	j;
+// int	parse_floor_ceiling(t_map *map, char **splited, int mode)
+// {
+// 	int i;
+// 	int	j;
 
-	i = 1;
-	while (splited[i] != NULL)
-	{
-		j = 0;
-		while (splited[i][j] != '\0')
-		{
-			if (ft_atoi())
-		}
-	}
-}
+// 	i = 1;
+// 	while (splited[i] != NULL)
+// 	{
+// 		j = 0;
+// 		while (splited[i][j] != '\0')
+// 		{
+// 			if (ft_atoi())
+// 		}
+// 	}
+// }
 
 int	parse_textures(t_map *map, char **splited, int mode, char *aux)
 {
