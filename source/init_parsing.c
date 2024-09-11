@@ -6,7 +6,7 @@
 /*   By: usuario <usuario@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 14:50:42 by eviscont          #+#    #+#             */
-/*   Updated: 2024/09/10 18:44:53 by usuario          ###   ########.fr       */
+/*   Updated: 2024/09/12 01:44:46 by usuario          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,51 @@ int	is_map_start(char *str)
 	return (TRUE);
 }
 
+int	parse_floor_ceiling(t_map *map, char **splited, int mode)
+{
+	int i;
+	int	j;
+
+	i = 1;
+	while (splited[i] != NULL)
+	{
+		j = 0;
+		while (splited[i][j] != '\0')
+		{
+			if (ft_atoi())
+		}
+	}
+}
+
+int	parse_textures(t_map *map, char **splited, int mode, char *aux)
+{
+	if (ft_str2dlen(splited) != 2)
+	{
+		ft_printf("Error\nInvalid %s format\n", splited[0]);
+		return (FALSE);
+	}
+	aux = ft_strtrim(splited[1], "\n");
+	if (open(aux, O_RDONLY) == -1)
+	{
+		ft_printf("Error\nTexture %s not found\n", splited[0]);
+		return (free(aux), FALSE);
+	}
+	if (!valid_extension(aux, XPM))
+	{
+		ft_printf("Error\nTexture %s invalid extension\n", splited[0]);
+		return (free(aux), FALSE);
+	}
+	if (mode == NO)
+		map->no1 = ft_strdup(aux);
+	else if (mode == SO)
+		map->so1 = ft_strdup(aux);
+	else if (mode == WE)
+		map->we1 = ft_strdup(aux);
+	else if (mode == EA)
+		map->ea1 = ft_strdup(aux);
+	return (free(aux), TRUE);
+}
+
 static void	check_line_aux(char *line, char **splited)
 {
 	ft_printf("Error\n");
@@ -81,45 +126,33 @@ static void	check_line_aux(char *line, char **splited)
 	free(line);
 }
 
-int	case_no(t_map *map, char **splited)
-{
-	if (ft_arraylen(splited) == 2)
-	{
-		ft_printf("%s\n", splited[1]);
-		if (open(splited[1], O_RDONLY) == -1)
-			return (ft_printf("Error\nTexture NO not found\n"), FALSE);
-		if (!valid_extension(splited[1], XPM))
-			return (ft_printf("Error\nTexture NO invalid extension\n"), FALSE);
-		map->no1 = ft_strdup(splited[1]);
-		return (TRUE);
-	}
-	return (ft_printf("Error\nInvalid NO format\n"), FALSE);
-}
-
-int check_line(t_map *map, char *line)
+int check_line(t_map *map, char *line, int ret)
 {
 	char **splited;
 
 	splited = ft_split(line, ' ');
 	if (!ft_strcmp("NO", splited[0]) && !map->no1)
-		case_no(map, splited);
+		ret = parse_textures(map, splited, NO, NULL);
 	else if ((!ft_strcmp("SO", splited[0]) && !map->so1))
-		ft_printf("so\n");
+		ret = parse_textures(map, splited, SO, NULL);
 	else if ((!ft_strcmp("WE", splited[0]) && !map->we1))
-		ft_printf("we\n");
+		ret = parse_textures(map, splited, WE, NULL);
 	else if ((!ft_strcmp("EA", splited[0]) && !map->ea1))
-		ft_printf("ea\n");
+		ret = parse_textures(map, splited, EA, NULL);
 	else if ((!ft_strcmp("F", splited[0]) && !map->f1))
-		ft_printf("f\n");
+		ret = TRUE;
 	else if ((!ft_strcmp("C", splited[0]) && !map->c1))
-		ft_printf("c\n");
+		ret = TRUE;
 	else if (is_map_start(splited[0]) == TRUE)
+	{
+		ret = TRUE;
 		map->start_map = TRUE;
+	}
 	else
 		return (check_line_aux(line, splited), FALSE);
 	ft_free2dstr(splited);
 	free(line);
-	return (TRUE);
+	return (ret);
 }
 
 int check_cub_file(t_map *map, char *str)
@@ -137,7 +170,7 @@ int check_cub_file(t_map *map, char *str)
 		{
 			if (ft_strcmp("\n", line) && !map->start_map)
 			{
-				if (!check_line(map, tabs_handler(line, -1, 0, 0)))
+				if (!check_line(map, tabs_handler(line, -1, 0, 0), 0))
 					return (free(line), FALSE);
 			}
 			if (map->start_map == TRUE)

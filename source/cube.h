@@ -226,10 +226,10 @@ void	ft_move_forward_backward(t_data *dt, double movespeed, int sign);
 /* Parsing */
 int		valid_extension(char *str, int mode);
 int		check_cub_file(t_map *map, char *str);
-int		check_line(t_map *map, char *line);
+int		check_line(t_map *map, char *line, int ret);
+int		parse_textures(t_map *map, char **splited, int mode, char *aux);
 int		is_map_start(char *str);
 char	*tabs_handler(char *str, int i, int j, int tabs);
 int		ft_strcmp(char *s1, char *s2);
-int		ft_arraylen(char **array);
 
 #endif
