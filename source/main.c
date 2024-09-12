@@ -15,7 +15,6 @@
 /* initializes the cub struct with a hardcoded map and textures */
 void	ft_init_cub(t_map *map)
 {
-	map->start_map = 0;
 	map->no = ft_strdup("assets/textures/NO.xpm");
 	map->so = ft_strdup("assets/textures/SO.xpm");
 	map->we = ft_strdup("assets/textures/WE.xpm");
@@ -42,7 +41,6 @@ void	ft_init_cub(t_map *map)
 	map->player_position[Y_AXIS] = 3;
 	map->player_direction[X_AXIS] = 0;
 	map->player_direction[Y_AXIS] = -1;
-	//map->start_map = FALSE;
 }
 
 int	main(int argc, char **argv)

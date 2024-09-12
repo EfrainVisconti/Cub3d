@@ -6,7 +6,7 @@
 /*   By: eviscont <eviscont@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 14:50:42 by eviscont          #+#    #+#             */
-/*   Updated: 2024/09/12 16:01:40 by eviscont         ###   ########.fr       */
+/*   Updated: 2024/09/12 21:34:05 by eviscont         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,21 +73,55 @@ int	is_map_start(char *str)
 	return (TRUE);
 }
 
-// int	parse_floor_ceiling(t_map *map, char **splited, int mode)
-// {
-// 	int i;
-// 	int	j;
+static void	flag_increase(t_map *map)
+{
+	map->p_flag += 1;
+}
 
-// 	i = 1;
-// 	while (splited[i] != NULL)
-// 	{
-// 		j = 0;
-// 		while (splited[i][j] != '\0')
-// 		{
-// 			if (ft_atoi())
-// 		}
-// 	}
-// }
+int	parse_floor_ceiling(t_map *map, char **splited, int mode)
+{
+	int	len;
+	int	i;
+	int	j;
+	int	k;
+	char	*aux;
+	char	**aux2;
+
+	i = 1;
+	k = -1;
+	len = ft_str2dlen(splited);
+	if (len >= 2 && len <= 4 && mode == F)
+	{
+		while (splited[i] != NULL)
+		{
+			aux = ft_strtrim(splited[i], "\n");
+			ft_printf("trimed: %s\n", aux);
+			if ((i < len - 1 && ft_strchr(aux, ',')) || (i == len -1 && !ft_strchr(aux, ',')) || (len == 2 && ft_strchr(aux, ',')))
+			{
+				aux2 = ft_split(aux, ',');
+				if (ft_str2dlen(aux2) > 3)
+					return (ft_printf("Error\nInvalid %s format\n", splited[0]), FALSE);
+				j = 0;
+				while (aux2[j] != NULL && aux2[j][0] != '\0')
+				{
+					ft_printf("splited: %s\n", aux2[j]);
+					ft_printf("1num: %i, %i\n", map->fc_aux[++k], j);
+					map->fc_aux[k] = cubed_atoi(aux2[j]);
+					ft_printf("2num: %i, %i, %i\n", map->fc_aux[k], k, j);
+					j++;
+				}
+			}
+			else
+				return (ft_printf("Error\nInvalid %s format\n", splited[0]), FALSE);
+			i++;
+		}
+		if (!map->fc_aux[0] || !map->fc_aux[1] || !map->fc_aux[2])
+			return (ft_printf("Error\nInvalid %s format\n", splited[0]), FALSE);
+	}
+	else
+		return (ft_printf("Error\nInvalid %s format\n", splited[0]), FALSE);
+	return (flag_increase(map), TRUE);
+}
 
 int	parse_textures(t_map *map, char **splited, int mode, char *aux)
 {
@@ -115,7 +149,7 @@ int	parse_textures(t_map *map, char **splited, int mode, char *aux)
 		map->we1 = ft_strdup(aux);
 	else if (mode == EA)
 		map->ea1 = ft_strdup(aux);
-	return (free(aux), TRUE);
+	return (free(aux), flag_increase(map), TRUE);
 }
 
 static void	check_line_aux(char *line, char **splited)
@@ -126,42 +160,41 @@ static void	check_line_aux(char *line, char **splited)
 	free(line);
 }
 
-int check_line(t_map *map, char *line, int *ret)
+int check_line(t_map *map, char *line, int ret)
 {
 	char **splited;
 
 	splited = ft_split(line, ' ');
 	if (!ft_strcmp("NO", splited[0]) && !map->no1)
-		*ret += parse_textures(map, splited, NO, NULL);
+		ret = parse_textures(map, splited, NO, NULL);
 	else if ((!ft_strcmp("SO", splited[0]) && !map->so1))
-		*ret += parse_textures(map, splited, SO, NULL);
+		ret = parse_textures(map, splited, SO, NULL);
 	else if ((!ft_strcmp("WE", splited[0]) && !map->we1))
-		*ret += parse_textures(map, splited, WE, NULL);
+		ret = parse_textures(map, splited, WE, NULL);
 	else if ((!ft_strcmp("EA", splited[0]) && !map->ea1))
-		*ret += parse_textures(map, splited, EA, NULL);
+		ret = parse_textures(map, splited, EA, NULL);
 	else if ((!ft_strcmp("F", splited[0]) && !map->f1))
-		*ret += TRUE;
+		ret = parse_floor_ceiling(map, splited, F);
 	else if ((!ft_strcmp("C", splited[0]) && !map->c1))
-		*ret += TRUE;
+		ret = parse_floor_ceiling(map, splited, F);
 	else if (is_map_start(splited[0]) == TRUE)
 	{
-		*ret += TRUE;
+		map->p_flag += TRUE;
+		ret = TRUE;
 		map->start_map = TRUE;
 	}
 	else
 		return (check_line_aux(line, splited), FALSE);
 	ft_free2dstr(splited);
 	free(line);
-	return (*ret);
+	return (ret);
 }
 
 int check_cub_file(t_map *map, char *str)
 {
 	char	*line;
 	int		fd;
-	int		ret;
 
-	ret = 0;
 	fd = open(str, O_RDONLY);
 	if (fd == -1)
 		return (ft_printf("Error\nFile not found\n"), FALSE);
@@ -172,13 +205,13 @@ int check_cub_file(t_map *map, char *str)
 		{
 			if (ft_strcmp("\n", line) && !map->start_map)
 			{
-				if (!check_line(map, tabs_handler(line, -1, 0, 0), &ret))
+				if (!check_line(map, tabs_handler(line, -1, 0, 0), 0))
 					return (free(line), FALSE);
 			}
-			if (map->start_map == TRUE && ret == 7)
-				ft_printf("we are in map: %s\n", line);
-			else if (map->start_map == TRUE && ret != 7)
-				return (ft_printf("Error\nMissing elements in file\n%d\n", ret), free(line), FALSE);
+			if (map->start_map == TRUE && map->p_flag == 7)
+				ft_printf("we are in map ");
+			else if (map->start_map == TRUE && map->p_flag != 7)
+				return (ft_printf("Error\nMissing elements in file\n"), free(line), FALSE);
 		}
 		else
 			break;

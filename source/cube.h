@@ -81,6 +81,10 @@
 #define CUB 0
 #define XPM 1
 
+/* Parse_floor_ceiling function modes */
+#define F 0
+#define C 1
+
 /*
  map: The map as in the .cub file
  gamemap: The map copy the game uses. The player is erased.
@@ -105,6 +109,8 @@ typedef struct s_map
 	int			f1;
 	int			c1;
 	int			start_map;
+	int			fc_aux[3];
+	int			p_flag;
 }				t_map;
 
 /*
@@ -226,10 +232,12 @@ void	ft_move_forward_backward(t_data *dt, double movespeed, int sign);
 /* Parsing */
 int		valid_extension(char *str, int mode);
 int		check_cub_file(t_map *map, char *str);
-int		check_line(t_map *map, char *line, int *ret);
+int		check_line(t_map *map, char *line, int ret);
 int		parse_textures(t_map *map, char **splited, int mode, char *aux);
+int		parse_floor_ceiling(t_map *map, char **splited, int mode);
 int		is_map_start(char *str);
 char	*tabs_handler(char *str, int i, int j, int tabs);
 int		ft_strcmp(char *s1, char *s2);
+int		cubed_atoi(const char *str);
 
 #endif
