@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_parsing.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: usuario <usuario@student.42.fr>            +#+  +:+       +#+        */
+/*   By: eviscont <eviscont@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 14:50:42 by eviscont          #+#    #+#             */
-/*   Updated: 2024/09/12 01:51:44 by usuario          ###   ########.fr       */
+/*   Updated: 2024/09/12 16:01:40 by eviscont         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,40 +126,42 @@ static void	check_line_aux(char *line, char **splited)
 	free(line);
 }
 
-int check_line(t_map *map, char *line, int ret)
+int check_line(t_map *map, char *line, int *ret)
 {
 	char **splited;
 
 	splited = ft_split(line, ' ');
 	if (!ft_strcmp("NO", splited[0]) && !map->no1)
-		ret = parse_textures(map, splited, NO, NULL);
+		*ret += parse_textures(map, splited, NO, NULL);
 	else if ((!ft_strcmp("SO", splited[0]) && !map->so1))
-		ret = parse_textures(map, splited, SO, NULL);
+		*ret += parse_textures(map, splited, SO, NULL);
 	else if ((!ft_strcmp("WE", splited[0]) && !map->we1))
-		ret = parse_textures(map, splited, WE, NULL);
+		*ret += parse_textures(map, splited, WE, NULL);
 	else if ((!ft_strcmp("EA", splited[0]) && !map->ea1))
-		ret = parse_textures(map, splited, EA, NULL);
+		*ret += parse_textures(map, splited, EA, NULL);
 	else if ((!ft_strcmp("F", splited[0]) && !map->f1))
-		ret = TRUE;
+		*ret += TRUE;
 	else if ((!ft_strcmp("C", splited[0]) && !map->c1))
-		ret = TRUE;
+		*ret += TRUE;
 	else if (is_map_start(splited[0]) == TRUE)
 	{
-		ret = TRUE;
+		*ret += TRUE;
 		map->start_map = TRUE;
 	}
 	else
 		return (check_line_aux(line, splited), FALSE);
 	ft_free2dstr(splited);
 	free(line);
-	return (ret);
+	return (*ret);
 }
 
 int check_cub_file(t_map *map, char *str)
 {
-	char *line;
-	int fd;
+	char	*line;
+	int		fd;
+	int		ret;
 
+	ret = 0;
 	fd = open(str, O_RDONLY);
 	if (fd == -1)
 		return (ft_printf("Error\nFile not found\n"), FALSE);
@@ -170,11 +172,13 @@ int check_cub_file(t_map *map, char *str)
 		{
 			if (ft_strcmp("\n", line) && !map->start_map)
 			{
-				if (!check_line(map, tabs_handler(line, -1, 0, 0), 0))
+				if (!check_line(map, tabs_handler(line, -1, 0, 0), &ret))
 					return (free(line), FALSE);
 			}
-			if (map->start_map == TRUE)
+			if (map->start_map == TRUE && ret == 7)
 				ft_printf("we are in map: %s\n", line);
+			else if (map->start_map == TRUE && ret != 7)
+				return (ft_printf("Error\nMissing elements in file\n%d\n", ret), free(line), FALSE);
 		}
 		else
 			break;
