@@ -91,8 +91,12 @@
 */
 typedef struct s_map
 {
+	char		*map_line;
+	int			nbr_player;
 	char		**map;
 	char		**gamemap;
+	char		**map1;
+	char		**gamemap1;
 	char		*no;
 	char		*so;
 	char		*we;
@@ -232,10 +236,13 @@ void	ft_move_forward_backward(t_data *dt, double movespeed, int sign);
 /* Parsing */
 int		valid_extension(char *str, int mode);
 int		check_cub_file(t_map *map, char *str);
+int		check_map(t_map *map);
 int		check_line(t_map *map, char *line, int ret);
+int		parse_map(t_map *map, char *line);
 int		parse_textures(t_map *map, char **splited, int mode, char *aux);
 int		parse_floor_ceiling(t_map *map, char **splited, int mode);
-int		is_map_start(char *str);
+int		parse_floor_ceiling_aux(t_map *map, char **splited);
+int		is_map_start(t_map *map, char *str);
 char	*tabs_handler(char *str, int i, int j, int tabs);
 int		ft_strcmp(char *s1, char *s2);
 int		cubed_atoi(const char *str);
