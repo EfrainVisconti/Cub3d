@@ -6,7 +6,7 @@
 /*   By: eviscont <eviscont@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 14:50:42 by eviscont          #+#    #+#             */
-/*   Updated: 2024/09/16 18:10:03 by eviscont         ###   ########.fr       */
+/*   Updated: 2024/09/16 21:13:57 by eviscont         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,17 +193,17 @@ int check_line(t_map *map, char *line, int ret)
 	splited = ft_split(line, ' ');
 	if (!ft_strcmp("NO", splited[0]) && !map->no1)
 		ret = parse_textures(map, splited, NO, NULL);
-	else if ((!ft_strcmp("SO", splited[0]) && !map->so1))
+	else if (!ft_strcmp("SO", splited[0]) && !map->so1)
 		ret = parse_textures(map, splited, SO, NULL);
-	else if ((!ft_strcmp("WE", splited[0]) && !map->we1))
+	else if (!ft_strcmp("WE", splited[0]) && !map->we1)
 		ret = parse_textures(map, splited, WE, NULL);
-	else if ((!ft_strcmp("EA", splited[0]) && !map->ea1))
+	else if (!ft_strcmp("EA", splited[0]) && !map->ea1)
 		ret = parse_textures(map, splited, EA, NULL);
-	else if ((!ft_strcmp("F", splited[0]) && !map->f1))
+	else if (!ft_strcmp("F", splited[0]) && !map->f1)
 		ret = parse_floor_ceiling(map, splited, F);
-	else if ((!ft_strcmp("C", splited[0]) && !map->c1))
+	else if (!ft_strcmp("C", splited[0]) && !map->c1)
 		ret = parse_floor_ceiling(map, splited, C);
-	else if (is_map_start(map, splited[0]) == TRUE)
+	else if (splited[0] && is_map_start(map, splited[0]) == TRUE)
 	{
 		ret = TRUE;
 		map->start_map = TRUE;
@@ -223,7 +223,8 @@ int	check_items(char *line, t_map *map)
 	while (line[i] != '\0')
 	{
 		if (line[i] != '1' && line[i] != '0' && line[i] != 'N' && line[i] != 'S'
-		&& line[i] != 'E' && line[i] != 'W' && line[i] != ' ' && line[i] != '\n')
+		&& line[i] != 'E' && line[i] != 'W' && line[i] != ' ' && line[i] != '\n'
+		&& line[i] != '$')
 			return (ft_printf("Error\nInvalid items in map\n"), FALSE);
 		if (line[i] == 'N' || line[i] == 'S' || line[i] == 'E' || line[i] == 'W')
 			map->nbr_player++;
@@ -236,6 +237,8 @@ int	parse_map(t_map *map, char *line)
 {
 	char	*temp;
 
+	if (line && line[0] == '\n')
+		line = ft_strdup("$\n");
 	if (line != NULL && !check_items(line, map))
 		return (FALSE);
 	if (line != NULL)
@@ -248,7 +251,7 @@ int	parse_map(t_map *map, char *line)
 	return (TRUE);
 }
 
-void	erases_player(t_map *map)
+void	erases_player_empty_lines(t_map *map)
 {
 	int	i;
 
@@ -258,21 +261,64 @@ void	erases_player(t_map *map)
 		if (map->map_line[i] == 'N' || map->map_line[i] == 'S' || map->map_line[i] == 'E'
 			|| map->map_line[i] == 'W')
 			map->map_line[i] = '0';
+		if (map->map_line[i] == '$')
+			map->map_line[i] = '\n';
 		i++;
 	}
+}
+
+// int	validate_map(t_map *map)
+// {
+// 	int	i;
+
+
+// 	i = 0;
+
+// }
+
+int	check_empty_lines(char *line, int i, int found_doll)
+{
+	while (line[i] != '\0')
+	{
+		if (line[i] == '$')
+		{
+			if (found_doll == FALSE)
+				found_doll = TRUE;
+			if (line[i + 1] == '\n' || line[i + 1] == '\0')
+			{
+				i++;
+				if (line[i] == '\n')
+					i++;
+				continue ;
+			}
+			else
+				return (FALSE);
+		}
+		else
+		{
+			if (found_doll)
+				return (FALSE);
+		}
+		i++;
+	}
+	return (TRUE);
 }
 
 int	check_map(t_map *map)
 {
 	if (map->nbr_player != 1)
 		return (ft_printf("Error\nInvalid number of player\n"), FALSE);
+	if (!check_empty_lines(map->map_line, 0, FALSE))
+		return (ft_printf("Error\nInvalid map\n"), FALSE);
 	map->map1 = ft_split(map->map_line, '\n');
 	if (!map->map1)
 		return (ft_printf("Error\nGetting map\n"), FALSE);
-	erases_player(map);
+	erases_player_empty_lines(map);
 	map->gamemap1 = ft_split(map->map_line, '\n');
 	if (!map->gamemap1)
 		return (ft_printf("Error\nGetting gamemap\n"), FALSE);
+	// if (!validate_map(map))
+	// 	return (FALSE);
 	return (TRUE);
 }
 
@@ -296,14 +342,11 @@ int check_cub_file(t_map *map, char *str)
 				if (!check_line(map, tabs_handler(line, -1, 0, 0), 0))
 					return (free(line), FALSE);
 			}
-			if (!ft_strcmp("\n", line) && map->start_map)
-				break;
-			if (map->start_map == TRUE && map->p_flag == 7 && !parse_map(map, tabs_handler(line, -1, 0, 0)))
+			if (map->start_map && map->p_flag == 7 && !parse_map(map, tabs_handler(line, -1, 0, 0)))
 				return (free(line), FALSE);
-			else if (map->start_map == TRUE && map->p_flag != 7)
+			else if (map->start_map && map->p_flag != 7)
 				return (ft_printf("Error\nMissing elements in file\n"), free(line), FALSE);
 		}
-
 		free (line);
 		line = ft_get_next_line(fd);
 	}

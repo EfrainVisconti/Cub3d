@@ -6,7 +6,7 @@
 /*   By: eviscont <eviscont@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 19:23:50 by eviscont          #+#    #+#             */
-/*   Updated: 2024/09/16 17:27:07 by eviscont         ###   ########.fr       */
+/*   Updated: 2024/09/16 19:05:48 by eviscont         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	ft_strcmp(char *s1, char *s2)
 	int	idx;
 
 	idx = 0;
+	if (!s1 || !s2)
+		return (-1);
 	while ((s1[idx] != '\0' && s2[idx] != '\0') && (s1[idx] == s2[idx]))
 		idx++;
 	return ((unsigned char)s1[idx] - (unsigned char)s2[idx]);
