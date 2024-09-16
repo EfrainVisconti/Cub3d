@@ -58,6 +58,18 @@ int	main(int argc, char **argv)
 	{
 		return (EXIT_FAILURE);
 	}
+	int i = 0;
+	while (map.map1[i])
+	{
+		ft_printf("%d:%s\n", i, map.map1[i]);
+		i++;
+	}
+	i = 0;
+	while (map.gamemap1[i])
+	{
+		ft_printf("%d:%s\n", i, map.gamemap1[i]);
+		i++;
+	}
 	ft_init_cub(&map);
 	ft_game(map);
 	ft_free_cub("Game ended\n", &map, FREE_ALL);
