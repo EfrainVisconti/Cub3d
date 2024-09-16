@@ -6,7 +6,7 @@
 /*   By: eviscont <eviscont@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 14:50:42 by eviscont          #+#    #+#             */
-/*   Updated: 2024/09/16 17:59:21 by eviscont         ###   ########.fr       */
+/*   Updated: 2024/09/16 18:10:03 by eviscont         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -296,11 +296,14 @@ int check_cub_file(t_map *map, char *str)
 				if (!check_line(map, tabs_handler(line, -1, 0, 0), 0))
 					return (free(line), FALSE);
 			}
+			if (!ft_strcmp("\n", line) && map->start_map)
+				break;
 			if (map->start_map == TRUE && map->p_flag == 7 && !parse_map(map, tabs_handler(line, -1, 0, 0)))
 				return (free(line), FALSE);
 			else if (map->start_map == TRUE && map->p_flag != 7)
 				return (ft_printf("Error\nMissing elements in file\n"), free(line), FALSE);
 		}
+
 		free (line);
 		line = ft_get_next_line(fd);
 	}
