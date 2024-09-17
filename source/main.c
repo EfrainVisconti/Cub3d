@@ -54,21 +54,9 @@ int	main(int argc, char **argv)
 	ft_bzero(&map, sizeof(t_map));
 	ft_memset(map.fc_aux, -1, sizeof(map.fc_aux));
 	map.map_line = ft_strdup("");
-	if (!check_cub_file(&map, argv[1]))
+	if (!init_parsing(&map, argv[1], 0, NULL))
 	{
 		return (EXIT_FAILURE);
-	}
-	int i = 0;
-	while (map.map1[i])
-	{
-		ft_printf("%d:%s\n", i, map.map1[i]);
-		i++;
-	}
-	i = 0;
-	while (map.gamemap1[i])
-	{
-		ft_printf("%d:%s\n", i, map.gamemap1[i]);
-		i++;
 	}
 	ft_init_cub(&map);
 	ft_game(map);

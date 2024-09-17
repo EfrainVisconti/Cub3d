@@ -6,7 +6,7 @@
 /*   By: eviscont <eviscont@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 19:23:50 by eviscont          #+#    #+#             */
-/*   Updated: 2024/09/16 19:05:48 by eviscont         ###   ########.fr       */
+/*   Updated: 2024/09/17 17:32:56 by eviscont         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,32 @@ int	cubed_atoi(const char *str)
 	if (*str)
 		return (-1);
 	return (numb);
+}
+
+int valid_extension(char *str, int mode)
+{
+	int len;
+
+	len = ft_strlen(str);
+	if (mode == CUB && len > 4)
+	{
+		if (str[len - 1] == 'b' && str[len - 2] == 'u' && str[len - 3] == 'c' && str[len - 4] == '.')
+			return (TRUE);
+	}
+	else if (mode == XPM && len > 4)
+	{
+		if (str[len - 1] == 'm' && str[len - 2] == 'p' && str[len - 3] == 'x' && str[len - 4] == '.')
+			return (TRUE);
+	}
+	return (FALSE);
+}
+
+int	rgb_to_color_hex(int r, int g, int b)
+{
+	return (r << 24 | g << 16 | b << 8 | 0xFF);
+}
+
+void	flag_increase(t_map *map)
+{
+	map->p_flag += 1;
 }

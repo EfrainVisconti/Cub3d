@@ -95,23 +95,15 @@ typedef struct s_map
 	int			nbr_player;
 	char		**map;
 	char		**gamemap;
-	char		**map1;
-	char		**gamemap1;
 	char		*no;
 	char		*so;
 	char		*we;
 	char		*ea;
-	char		*no1;
-	char		*so1;
-	char		*we1;
-	char		*ea1;
 	int			map_size[2];
 	int			player_position[2];
 	int			player_direction[2];
 	int			f;
 	int			c;
-	int			f1;
-	int			c1;
 	int			start_map;
 	int			fc_aux[3];
 	int			p_flag;
@@ -234,17 +226,34 @@ void	ft_move_rotate(t_data *dt, double rotspeed, int sign);
 void	ft_move_forward_backward(t_data *dt, double movespeed, int sign);
 
 /* Parsing */
-int		valid_extension(char *str, int mode);
-int		check_cub_file(t_map *map, char *str);
-int		check_map(t_map *map);
+int		init_parsing(t_map *map, char *str, int fd, char *line);
+char	*tabs_handler(char *str, int i, int j, int tabs);
 int		check_line(t_map *map, char *line, int ret);
+void	check_line_aux(char *line, char **splited);
+int		is_map_start(t_map *map, char *str);
+//map
 int		parse_map(t_map *map, char *line);
+int		check_items(char *line, t_map *map);
+//check_map
+int		check_map(t_map *map);
+int		check_empty_lines(char *line, int i, int found_doll);
+void	erases_player_empty_lines(t_map *map);
+void	get_player_pos_dir(t_map *map);
+void	set_pos_dir(t_map *map, int mode, int i, int j);
+//validate_map
+int		validate_map(t_map *map);
+int		check_map_walls(t_map *map, int last);
+int		check_map_walls_aux(t_map *map, int sec, int nlast);
+int		check_map_spaces(t_map *map, int last);
+//parse_elements
 int		parse_textures(t_map *map, char **splited, int mode, char *aux);
 int		parse_floor_ceiling(t_map *map, char **splited, int mode);
 int		parse_floor_ceiling_aux(t_map *map, char **splited);
-int		is_map_start(t_map *map, char *str);
-char	*tabs_handler(char *str, int i, int j, int tabs);
+//utils
 int		ft_strcmp(char *s1, char *s2);
 int		cubed_atoi(const char *str);
+int		valid_extension(char *str, int mode);
+int		rgb_to_color_hex(int r, int g, int b);
+void	flag_increase(t_map *map);
 
 #endif
