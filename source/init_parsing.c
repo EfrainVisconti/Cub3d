@@ -6,7 +6,7 @@
 /*   By: eviscont <eviscont@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 14:50:42 by eviscont          #+#    #+#             */
-/*   Updated: 2024/09/18 22:09:52 by eviscont         ###   ########.fr       */
+/*   Updated: 2024/09/18 22:26:37 by eviscont         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ int	init_parsing(t_map *map, char *str, int fd, char *line)
 				&& !parse_map(map, tabs_handler(line, -1, 0, 0)))
 				return (free(line), FALSE);
 			else if (map->start_map && map->p_flag != 7)
-				return (printf("Error\nWrong elements conf\n"), free(line), 0);
+				return (print_error_aux(), free(line), 0);
 		}
 		free (line);
 		line = ft_get_next_line(fd);

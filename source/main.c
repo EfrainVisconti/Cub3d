@@ -12,6 +12,26 @@
 
 #include "cube.h"
 
+int	valid_extension(char *str, int mode)
+{
+	int	len;
+
+	len = ft_strlen(str);
+	if (mode == CUB && len > 4)
+	{
+		if (str[len - 1] == 'b' && str[len - 2] == 'u'
+			&& str[len - 3] == 'c' && str[len - 4] == '.')
+			return (TRUE);
+	}
+	else if (mode == XPM && len > 4)
+	{
+		if (str[len - 1] == 'm' && str[len - 2] == 'p'
+			&& str[len - 3] == 'x' && str[len - 4] == '.')
+			return (TRUE);
+	}
+	return (FALSE);
+}
+
 int	main(int argc, char **argv)
 {
 	t_map	map;

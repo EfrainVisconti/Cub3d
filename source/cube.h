@@ -255,9 +255,9 @@ int		check_map_spaces(t_map *map, int last);
 /* Utils_parsing */
 int		ft_strcmp(char *s1, char *s2);
 int		cubed_atoi(const char *str);
-int		valid_extension(char *str, int mode);
 void	flag_increase(t_map *map);
 char	*remove_eol(char *line);
+void	print_error_aux(void);
 /* Print_aux */
 void	print_aux(t_map *map);
 #endif
