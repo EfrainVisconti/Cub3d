@@ -12,18 +12,18 @@
 
 #include "cube.h"
 
-/* 
+/*
 ft_move_forward_backward:
 This function handles player movement along the direction the player is facing.
 It checks if the next position in the map grid [map.gamemap] is walkable
 (i.e., not a wall) before updating the player's position [posx, posy].
-The movement speed [movespeed] and direction [sign] are used to determine 
+The movement speed [movespeed] and direction [sign] are used to determine
 how far and in which direction to move the player (the work as steps)
 The player's position is updated on their current direction vector [dirx, diry].
 */
 void	ft_move_forward_backward(t_data *data, double movespeed, int sign)
 {
-	if (data->map.gamemap[(int)(data->player.pos[X_AXIS] + sign * 
+	if (data->map.gamemap[(int)(data->player.pos[X_AXIS] + sign *
 			data->player.dir[X_AXIS] * movespeed)][(int)data->player.pos[Y_AXIS]] == '0')
 		data->player.pos[X_AXIS] += sign * data->player.dir[X_AXIS] * movespeed;
 	if (data->map.gamemap[(int)data->player.pos[X_AXIS]][(int)
@@ -31,12 +31,12 @@ void	ft_move_forward_backward(t_data *data, double movespeed, int sign)
 		data->player.pos[Y_AXIS] += sign * data->player.dir[Y_AXIS] * movespeed;
 }
 
-/* 
+/*
 ft_move_rotate:
 This function handles the rotation of the player's view.
 It rotates the direction vector [dirx, diry] & the camera plane[planex, planey]
-by a given rotation speed [rotspeed]. 
-The rotation is calculated using basic trigonometry, specifically the sine 
+by a given rotation speed [rotspeed].
+The rotation is calculated using basic trigonometry, specifically the sine
 and cosine functions, to update the direction and plane vectors.
 */
 void	ft_move_rotate(t_data *data, double rotspeed, int sign)

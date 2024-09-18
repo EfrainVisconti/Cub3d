@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #ifndef CUBE_H
 # define CUBE_H
 
@@ -24,8 +23,8 @@
 # include "../libraries/minilibx-linux/mlx.h"
 
 /* Game window settings */
-# define SCREENWIDTH 1280
-# define SCREENHEIGTH 960
+# define SCREENW 1280
+# define SCREENH 960
 /* The .xpm i have are this size :*/
 # define TEXTUREWIDTH 64
 # define TEXTUREHEIGHT 64
@@ -44,46 +43,46 @@
 # define WE 3
 
 /* Axis value for the raycasting functions */
-#define X_AXIS 0
-#define Y_AXIS 1
+# define X_AXIS 0
+# define Y_AXIS 1
 
 /* Linux qwerty key values */
-#define UPARROW_KEY 65362
-#define DOWNARROW_KEY 65364
-#define RIGHTARROW_KEY 65363
-#define LEFTARROW_KEY 65361
-#define W_KEY 119
-#define A_KEY 97
-#define S_KEY 115
-#define D_KEY 100
-#define Q_KEY 113
-#define ESC_KEY 65307
+# define UPARROW_KEY 65362
+# define DOWNARROW_KEY 65364
+# define RIGHTARROW_KEY 65363
+# define LEFTARROW_KEY 65361
+# define W_KEY 119
+# define A_KEY 97
+# define S_KEY 115
+# define D_KEY 100
+# define Q_KEY 113
+# define ESC_KEY 65307
 
 /* Movement management of the push/release of keys*/
-#define ENABLE_MOVE 1
-#define DISABLE_MOVE 0
+# define ENABLE_MOVE 1
+# define DISABLE_MOVE 0
 
 /* Boolean (tipe int)*/
-#define FALSE 0
-#define TRUE 1
+# define FALSE 0
+# define TRUE 1
 
 /* Movement functions modes defines */
-#define RIGHT -1
-#define LEFT 1
-#define FORWARD 1
-#define BACKWARD -1
+# define RIGHT -1
+# define LEFT 1
+# define FORWARD 1
+# define BACKWARD -1
 
 /* Free functions modes */
-#define FREE_TEXTURES 0
-#define FREE_ALL 1
+# define FREE_TEXTURES 0
+# define FREE_ALL 1
 
 /* Valid_extension function modes */
-#define CUB 0
-#define XPM 1
+# define CUB 0
+# define XPM 1
 
 /* Parse_floor_ceiling function modes */
-#define F 0
-#define C 1
+# define F 0
+# define C 1
 
 /*
  map: The map as in the .cub file
@@ -225,35 +224,38 @@ int		ft_release_key(int key, void *param);
 void	ft_move_rotate(t_data *dt, double rotspeed, int sign);
 void	ft_move_forward_backward(t_data *dt, double movespeed, int sign);
 
-/* Parsing */
+/* Init_parsing */
 int		init_parsing(t_map *map, char *str, int fd, char *line);
 char	*tabs_handler(char *str, int i, int j, int tabs);
 int		check_line(t_map *map, char *line, int ret);
 void	check_line_aux(char *line, char **splited);
 int		is_map_start(t_map *map, char *str);
-//map
+/* Parse_elements */
+int		parse_textures(t_map *map, char **splited, int mode);
+int		parse_floor_ceiling(t_map *map, char **splited, int mode);
+int		parse_fc_aux(t_map *map, char **splited, int i[4]);
+int		parse_fc_loop(t_map *map, char **splited, int i[4]);
+int		rgb_to_hex(int r, int g, int b);
+/* Parse_map */
 int		parse_map(t_map *map, char *line);
 int		check_items(char *line, t_map *map);
-//check_map
+/* Check_map */
 int		check_map(t_map *map);
 int		check_empty_lines(char *line, int i, int found_doll);
 void	erases_player_empty_lines(t_map *map);
 void	get_player_pos_dir(t_map *map);
 void	set_pos_dir(t_map *map, int mode, int i, int j);
-//validate_map
+/* Validate_map */
 int		validate_map(t_map *map);
 int		check_map_walls(t_map *map, int last);
 int		check_map_walls_aux(t_map *map, int sec, int nlast);
 int		check_map_spaces(t_map *map, int last);
-//parse_elements
-int		parse_textures(t_map *map, char **splited, int mode, char *aux);
-int		parse_floor_ceiling(t_map *map, char **splited, int mode);
-int		parse_floor_ceiling_aux(t_map *map, char **splited);
-//utils
+/* Utils_parsing */
 int		ft_strcmp(char *s1, char *s2);
 int		cubed_atoi(const char *str);
 int		valid_extension(char *str, int mode);
-int		rgb_to_color_hex(int r, int g, int b);
 void	flag_increase(t_map *map);
-
+char	*remove_eol(char *line);
+/* Print_aux */
+void	print_aux(t_map *map);
 #endif

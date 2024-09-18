@@ -6,7 +6,7 @@
 /*   By: eviscont <eviscont@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 19:23:50 by eviscont          #+#    #+#             */
-/*   Updated: 2024/09/17 17:32:56 by eviscont         ###   ########.fr       */
+/*   Updated: 2024/09/18 19:16:11 by eviscont         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,12 +61,21 @@ int valid_extension(char *str, int mode)
 	return (FALSE);
 }
 
-int	rgb_to_color_hex(int r, int g, int b)
-{
-	return (r << 24 | g << 16 | b << 8 | 0xFF);
-}
-
 void	flag_increase(t_map *map)
 {
 	map->p_flag += 1;
+}
+
+char	*remove_eol(char *line)
+{
+	int i;
+
+	i = 0;
+	while (line[i] != '\0')
+	{
+		if (line[i] == '\n')
+			line[i] = ' ';
+		i++;
+	}
+	return (line);
 }

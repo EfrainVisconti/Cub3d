@@ -6,7 +6,7 @@
 /*   By: eviscont <eviscont@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 17:41:38 by eviscont          #+#    #+#             */
-/*   Updated: 2024/09/17 17:46:24 by eviscont         ###   ########.fr       */
+/*   Updated: 2024/09/18 18:42:21 by eviscont         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,8 @@ void	erases_player_empty_lines(t_map *map)
 	i = 0;
 	while (map->map_line[i] != '\0')
 	{
-		if (map->map_line[i] == 'N' || map->map_line[i] == 'S' || map->map_line[i] == 'E'
-			|| map->map_line[i] == 'W')
+		if (map->map_line[i] == 'N' || map->map_line[i] == 'S'
+			|| map->map_line[i] == 'E' || map->map_line[i] == 'W')
 			map->map_line[i] = '0';
 		if (map->map_line[i] == '$')
 			map->map_line[i] = '\n';
@@ -123,5 +123,6 @@ int	check_map(t_map *map)
 	if (!validate_map(map))
 		return (FALSE);
 	get_player_pos_dir(map);
+
 	return (TRUE);
 }

@@ -6,46 +6,53 @@
 /*   By: eviscont <eviscont@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 17:27:25 by eviscont          #+#    #+#             */
-/*   Updated: 2024/09/17 17:56:29 by eviscont         ###   ########.fr       */
+/*   Updated: 2024/09/18 18:40:52 by eviscont         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube.h"
 
-int	parse_floor_ceiling_aux(t_map *map, char **splited)
+int	rgb_to_hex(int r, int g, int b)
 {
-	int	len;
-	int	i;
-	int	j;
-	int	k;
-	char	*aux;
-	char	**aux2;
+	return (r << 24 | g << 16 | b << 8 | 0xFF);
+}
 
-	i = 1;
-	k = -1;
-	len = ft_str2dlen(splited);
-	if (len >= 2 && len <= 4)
+int	parse_fc_loop(t_map *map, char **splited, int i[4])
+{
+	char	**aux;
+
+	while (splited[i[0]] != NULL)
 	{
-		while (splited[i] != NULL)
+		if ((i[0] < i[3] - 1 && ft_strchr(splited[i[0]], ',')) || \
+		(i[0] == i[3] -1 && !ft_strchr(splited[i[0]], ',')) || (i[3] == 2 && \
+		ft_strchr(splited[i[0]], ',')))
 		{
-			aux = ft_strtrim(splited[i], "\n");
-			if ((i < len - 1 && ft_strchr(aux, ',')) || (i == len -1 && !ft_strchr(aux, ',')) || (len == 2 && ft_strchr(aux, ',')))
+			aux = ft_split(splited[i[0]], ',');
+			if (ft_str2dlen(aux) > 3)
+				return (ft_free2dstr(aux), FALSE);
+			i[1] = 0;
+			while (aux[i[1]] != NULL && aux[i[1]][0] != '\0')
 			{
-				aux2 = ft_split(aux, ',');
-				if (ft_str2dlen(aux2) > 3)
-					return (ft_printf("Error\nInvalid %s format\n", splited[0]), FALSE);
-				j = 0;
-				while (aux2[j] != NULL && aux2[j][0] != '\0')
-				{
-					map->fc_aux[++k] = cubed_atoi(aux2[j]);
-					j++;
-				}
+				map->fc_aux[++i[2]] = cubed_atoi(aux[i[1]]);
+				i[1]++;
 			}
-			else
-				return (ft_printf("Error\nInvalid %s format\n", splited[0]), FALSE);
-			i++;
+			ft_free2dstr(aux);
 		}
-		if (map->fc_aux[0] == -1 || map->fc_aux[1] == -1 || map->fc_aux[2] == -1)
+		else
+			return (FALSE);
+		i[0]++;
+	}
+	return (TRUE);
+}
+
+int	parse_fc_aux(t_map *map, char **splited, int i[4])
+{
+	if (i[3] >= 2 && i[3] <= 4)
+	{
+		if (!parse_fc_loop(map, splited, i))
+			return (ft_printf("Error\nInvalid %s format\n", splited[0]), FALSE);
+		if (map->fc_aux[0] == -1 || map->fc_aux[1] == -1 || \
+		map->fc_aux[2] == -1)
 			return (ft_printf("Error\nInvalid %s format\n", splited[0]), FALSE);
 	}
 	else
@@ -55,54 +62,57 @@ int	parse_floor_ceiling_aux(t_map *map, char **splited)
 
 int	parse_floor_ceiling(t_map *map, char **splited, int mode)
 {
+	int	i[4];
+
+	i[0] = 1;
+	i[1] = 0;
+	i[2] = -1;
+	i[3] = ft_str2dlen(splited);
 	if (mode == F)
 	{
-		if (parse_floor_ceiling_aux(map, splited) == TRUE)
+		if (parse_fc_aux(map, splited, i) == TRUE)
 		{
-			map->f = rgb_to_color_hex(map->fc_aux[0], map->fc_aux[1], map->fc_aux[2]);
+			map->f = rgb_to_hex(map->fc_aux[0], map->fc_aux[1], map->fc_aux[2]);
 			ft_memset(map->fc_aux, -1, sizeof(map->fc_aux));
+			return (TRUE);
 		}
-		else
-			return (FALSE);
 	}
 	else
 	{
-		if (parse_floor_ceiling_aux(map, splited) == TRUE)
+		if (parse_fc_aux(map, splited, i) == TRUE)
 		{
-			map->c = rgb_to_color_hex(map->fc_aux[0], map->fc_aux[1], map->fc_aux[2]);
+			map->c = rgb_to_hex(map->fc_aux[0], map->fc_aux[1], map->fc_aux[2]);
 			ft_memset(map->fc_aux, -1, sizeof(map->fc_aux));
+			return (TRUE);
 		}
-		else
-			return (FALSE);
 	}
-	return (TRUE);
+	return (FALSE);
 }
 
-int	parse_textures(t_map *map, char **splited, int mode, char *aux)
+int	parse_textures(t_map *map, char **splited, int mode)
 {
 	if (ft_str2dlen(splited) != 2)
 	{
 		ft_printf("Error\nInvalid %s format\n", splited[0]);
 		return (FALSE);
 	}
-	aux = ft_strtrim(splited[1], "\n");
-	if (open(aux, O_RDONLY) == -1)
+	if (open(splited[1], O_RDONLY) == -1)
 	{
 		ft_printf("Error\nTexture %s not found\n", splited[0]);
-		return (free(aux), FALSE);
+		return (FALSE);
 	}
-	if (!valid_extension(aux, XPM))
+	if (!valid_extension(splited[1], XPM))
 	{
 		ft_printf("Error\nTexture %s invalid extension\n", splited[0]);
-		return (free(aux), FALSE);
+		return (FALSE);
 	}
 	if (mode == NO)
-		map->no = ft_strdup(aux);
+		map->no = ft_strdup(splited[1]);
 	else if (mode == SO)
-		map->so = ft_strdup(aux);
+		map->so = ft_strdup(splited[1]);
 	else if (mode == WE)
-		map->we = ft_strdup(aux);
+		map->we = ft_strdup(splited[1]);
 	else if (mode == EA)
-		map->ea = ft_strdup(aux);
-	return (free(aux), flag_increase(map), TRUE);
+		map->ea = ft_strdup(splited[1]);
+	return (flag_increase(map), TRUE);
 }

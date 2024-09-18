@@ -14,15 +14,16 @@
 
 void	ft_free_cub(char *str, t_map *map, int mode)
 {
-	printf("%s", str);
+	ft_printf("%s", str);
 	free(map->no);
 	free(map->so);
 	free(map->we);
 	free(map->ea);
 	if (mode == FREE_ALL)
 	{
-		// ft_free2dstr(map->map);
+		ft_free2dstr(map->map);
 		ft_free2dstr(map->gamemap);
+		free(map->map_line);
 	}
 	exit(EXIT_SUCCESS);
 }
@@ -44,8 +45,8 @@ void	ft_init_data(t_data *data, t_map map)
 {
 	data->map = map;
 	data->mlx = mlx_init();
-	data->screenwidth = SCREENWIDTH;
-	data->screenheigth = SCREENHEIGTH;
+	data->screenwidth = SCREENW;
+	data->screenheigth = SCREENH;
 	data->player.forward = DISABLE_MOVE;
 	data->player.bakcward = DISABLE_MOVE;
 	data->player.rotate_right = DISABLE_MOVE;
@@ -54,13 +55,15 @@ void	ft_init_data(t_data *data, t_map map)
 	data->texture[NO] = ft_read_texture(data->mlx, data->map.no, data);
 	data->texture[EA] = ft_read_texture(data->mlx, data->map.ea, data);
 	data->texture[WE] = ft_read_texture(data->mlx, data->map.we, data);
-	data->player.pos[X_AXIS] = (double)map.player_position[Y_AXIS] + DISTANCETOWALL;
-	data->player.pos[Y_AXIS] = (double)map.player_position[X_AXIS] + DISTANCETOWALL;
+	data->player.pos[X_AXIS] = (double)map.player_position[Y_AXIS] \
+	+ DISTANCETOWALL;
+	data->player.pos[Y_AXIS] = (double)map.player_position[X_AXIS] \
+	+ DISTANCETOWALL;
 	data->player.dir[X_AXIS] = (double)map.player_direction[Y_AXIS];
 	data->player.dir[Y_AXIS] = (double)map.player_direction[X_AXIS];
 	data->player.plane[X_AXIS] = data->player.dir[Y_AXIS] * (CAMERAANGLE);
 	data->player.plane[Y_AXIS] = data->player.dir[X_AXIS] * (-CAMERAANGLE);
-	data->mlx_w = mlx_new_window(data->mlx, SCREENWIDTH, SCREENHEIGTH, GAMENAME);
+	data->mlx_w = mlx_new_window(data->mlx, SCREENW, SCREENH, GAMENAME);
 }
 
 /* Main "loop" of the cub3d. The raycasting function is called here */

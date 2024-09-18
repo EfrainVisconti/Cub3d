@@ -195,7 +195,7 @@ int	ft_raycasting(void *param)
 	i = 0;
 	data = (t_data *)param;
 	ft_move(data);
-	data->img_buffer.img = mlx_new_image(data->mlx, SCREENWIDTH, SCREENHEIGTH);
+	data->img_buffer.img = mlx_new_image(data->mlx, SCREENW, SCREENH);
 	data->img_buffer.addr = (int *) mlx_get_data_addr(data->img_buffer.img,
 			&data->img_buffer.bits_per_pixel, &data->img_buffer.size_line,
 			&data->img_buffer.endian);
