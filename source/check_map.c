@@ -6,7 +6,7 @@
 /*   By: eviscont <eviscont@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 17:41:38 by eviscont          #+#    #+#             */
-/*   Updated: 2024/09/18 18:42:21 by eviscont         ###   ########.fr       */
+/*   Updated: 2024/09/18 20:58:24 by eviscont         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,5 @@ int	check_map(t_map *map)
 	if (!validate_map(map))
 		return (FALSE);
 	get_player_pos_dir(map);
-
 	return (TRUE);
 }

@@ -44,18 +44,16 @@ void	ft_mlx_put_pixel(t_data *data, int x, int y, int color)
  The pixels above and below the line are filled with ceiling and floor colors.
 
 */
-void	ft_mlx_put_line(t_data *data, int x, t_draw draw)
+void	ft_mlx_put_line(t_data *data, int x, t_draw draw, int y)
 {
-	int			y;
 	int			texy;
 	int			color;
 	double		textureyaxisstep;
 	double		texpos;
 
-	y = 0;
 	textureyaxisstep = 1.0 * TEXTUREHEIGHT / draw.columnheight;
 	texpos = (draw.drawstart - data->screenheigth / 2 + draw.columnheight / 2)
-		 * textureyaxisstep;
+		* textureyaxisstep;
 	while (y < SCREENH)
 	{
 		if (y < draw.drawstart)

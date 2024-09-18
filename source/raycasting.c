@@ -34,24 +34,26 @@ void	ft_init_side(t_data data, t_ray *ray)
 	if (ray->raydir[X_AXIS] < 0)
 	{
 		ray->step[X_AXIS] = -1;
-		ray->sidedist[X_AXIS] = (data.player.pos[X_AXIS] - ray->map[X_AXIS]) * ray->deltadist[X_AXIS];
+		ray->sidedist[X_AXIS] = (data.player.pos[X_AXIS] - ray->map[X_AXIS])
+			* ray->deltadist[X_AXIS];
 	}
 	else
 	{
 		ray->step[X_AXIS] = 1;
-		ray->sidedist[X_AXIS] = (ray->map[X_AXIS] + 1.0 - data.player.pos[X_AXIS])
-			* ray->deltadist[X_AXIS];
+		ray->sidedist[X_AXIS] = (ray->map[X_AXIS] + 1.0 - \
+		data.player.pos[X_AXIS]) * ray->deltadist[X_AXIS];
 	}
 	if (ray->raydir[Y_AXIS] < 0)
 	{
 		ray->step[Y_AXIS] = -1;
-		ray->sidedist[Y_AXIS] = (data.player.pos[Y_AXIS] - ray->map[Y_AXIS]) * ray->deltadist[Y_AXIS];
+		ray->sidedist[Y_AXIS] = (data.player.pos[Y_AXIS] - ray->map[Y_AXIS])
+			* ray->deltadist[Y_AXIS];
 	}
 	else
 	{
 		ray->step[Y_AXIS] = 1;
-		ray->sidedist[Y_AXIS] = (ray->map[Y_AXIS] + 1.0 - data.player.pos[Y_AXIS])
-			* ray->deltadist[Y_AXIS];
+		ray->sidedist[Y_AXIS] = (ray->map[Y_AXIS] + 1.0 - \
+		data.player.pos[Y_AXIS]) * ray->deltadist[Y_AXIS];
 	}
 }
 
@@ -64,7 +66,8 @@ void	ft_init_side(t_data data, t_ray *ray)
  position and FOV as reference.
  [deltadist[X_AXIS], deltadist[Y_AXIS]] determine de increment  for each
  cuadricule
- The `ft_init_side` function is called to further initialize the ray's side distances.
+ The `ft_init_side` function is called to further initialize the ray's
+ side distances.
 
  */
 t_ray	ft_init_ray(t_data data, int x)
@@ -73,9 +76,10 @@ t_ray	ft_init_ray(t_data data, int x)
 
 	ray.hit = 0;
 	ray.rayscreenposx = (2.0 * x / (double)data.screenwidth) - 1.0;
-
-	ray.raydir[X_AXIS] = data.player.dir[X_AXIS] + (data.player.plane[X_AXIS] * ray.rayscreenposx);
-	ray.raydir[Y_AXIS] = data.player.dir[Y_AXIS] + (data.player.plane[Y_AXIS] * ray.rayscreenposx);
+	ray.raydir[X_AXIS] = data.player.dir[X_AXIS] + (data.player.plane[X_AXIS] \
+	* ray.rayscreenposx);
+	ray.raydir[Y_AXIS] = data.player.dir[Y_AXIS] + (data.player.plane[Y_AXIS] \
+	* ray.rayscreenposx);
 	ray.map[X_AXIS] = (int)data.player.pos[X_AXIS];
 	ray.map[Y_AXIS] = (int)data.player.pos[Y_AXIS];
 	if (!ray.raydir[X_AXIS])
@@ -140,7 +144,8 @@ to ensure it fits within the screen bounds.
 The wall texture and texture X coordinate are selected based on which side
 of the wall was hit [side] and the exact location of the wall hit.
 
-the ray hit the right side of a vertical wall, so the texture coordinates should be reversed
+the ray hit the right side of a vertical wall, so the texture coordinates should
+be reversed
 */
 void	ft_get_draw_info(t_data data, t_ray ray, t_draw *draw)
 {
@@ -151,23 +156,23 @@ void	ft_get_draw_info(t_data data, t_ray ray, t_draw *draw)
 	draw->drawend = draw->columnheight / 2 + data.screenheigth / 2;
 	if (draw->drawend >= data.screenheigth)
 		draw->drawend = data.screenheigth - 1;
-	if (ray.wallfacehit == Y_AXIS && ray.raydir[X_AXIS] > 0)
+	if (ray.wallfacehit == Y && ray.raydir[X] > 0)
 		draw->texnum = NO;
-	else if (ray.wallfacehit == Y_AXIS && ray.raydir[X_AXIS] < 0)
+	else if (ray.wallfacehit == Y && ray.raydir[X] < 0)
 		draw->texnum = SO;
-	else if (ray.wallfacehit == X_AXIS && ray.raydir[Y_AXIS] > 0)
+	else if (ray.wallfacehit == X && ray.raydir[Y] > 0)
 		draw->texnum = EA;
-	else if (ray.wallfacehit == X_AXIS && ray.raydir[Y_AXIS] < 0)
+	else if (ray.wallfacehit == X && ray.raydir[Y] < 0)
 		draw->texnum = WE;
-	if (ray.wallfacehit == Y_AXIS)
-		draw->wallx = data.player.pos[Y_AXIS] + ray.perpwalldist * ray.raydir[Y_AXIS];
+	if (ray.wallfacehit == Y)
+		draw->wallx = data.player.pos[Y] + ray.perpwalldist * ray.raydir[Y];
 	else
-		draw->wallx = data.player.pos[X_AXIS] + ray.perpwalldist * ray.raydir[X_AXIS];
+		draw->wallx = data.player.pos[X] + ray.perpwalldist * ray.raydir[X];
 	draw->wallx -= floor((draw->wallx));
 	draw->texx = (int)(draw->wallx * (double)TEXTUREWIDTH);
-	if (ray.wallfacehit == Y_AXIS && ray.raydir[X_AXIS] > 0)
+	if (ray.wallfacehit == Y && ray.raydir[X] > 0)
 		draw->texx = TEXTUREWIDTH - draw->texx - 1;
-	if (ray.wallfacehit == X_AXIS && ray.raydir[Y_AXIS] < 0)
+	if (ray.wallfacehit == X && ray.raydir[Y] < 0)
 		draw->texx = TEXTUREWIDTH - draw->texx - 1;
 }
 
@@ -204,7 +209,7 @@ int	ft_raycasting(void *param)
 		ray = ft_init_ray(*data, i);
 		ft_raycasting_dda_algorithm(&ray, data->map.gamemap);
 		ft_get_draw_info(*data, ray, &draw);
-		ft_mlx_put_line(data, i, draw);
+		ft_mlx_put_line(data, i, draw, 0);
 		i++;
 	}
 	mlx_put_image_to_window(data->mlx, data->mlx_w, data->img_buffer.img, 0, 0);

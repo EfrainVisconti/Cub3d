@@ -6,7 +6,7 @@
 /*   By: eviscont <eviscont@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 17:47:40 by eviscont          #+#    #+#             */
-/*   Updated: 2024/09/18 18:39:05 by eviscont         ###   ########.fr       */
+/*   Updated: 2024/09/18 20:52:33 by eviscont         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	check_map_spaces(t_map *map, int last)
 		i = 0;
 		while (map->gamemap[j][i] != '\0')
 		{
-			if (map->gamemap[j][i] == ' ')
+			if (map->gamemap[j][i] == ' ' && i != 0)
 			{
 				if (map->gamemap[j - 1][i] == '0' || \
 				map->gamemap[j + 1][i] == '0' || map->gamemap[j][i + 1] == '0' \

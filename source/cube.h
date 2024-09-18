@@ -45,6 +45,8 @@
 /* Axis value for the raycasting functions */
 # define X_AXIS 0
 # define Y_AXIS 1
+# define X 0
+# define Y 1
 
 /* Linux qwerty key values */
 # define UPARROW_KEY 65362
@@ -211,7 +213,7 @@ int		ft_raycasting(void *param);
 void	ft_raycasting_dda_algorithm(t_ray *ray, char **map);
 int		ft_move(t_data *dt);
 void	ft_get_draw_info(t_data dt, t_ray ray, t_draw *draw);
-void	ft_mlx_put_line(t_data *data, int x, t_draw draw);
+void	ft_mlx_put_line(t_data *data, int x, t_draw draw, int y);
 
 /* Textures */
 void	ft_free_textures(int **textures);

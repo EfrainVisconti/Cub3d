@@ -6,7 +6,7 @@
 /*   By: eviscont <eviscont@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 19:23:50 by eviscont          #+#    #+#             */
-/*   Updated: 2024/09/18 19:16:11 by eviscont         ###   ########.fr       */
+/*   Updated: 2024/09/18 21:29:09 by eviscont         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,19 +43,21 @@ int	cubed_atoi(const char *str)
 	return (numb);
 }
 
-int valid_extension(char *str, int mode)
+int	valid_extension(char *str, int mode)
 {
-	int len;
+	int	len;
 
 	len = ft_strlen(str);
 	if (mode == CUB && len > 4)
 	{
-		if (str[len - 1] == 'b' && str[len - 2] == 'u' && str[len - 3] == 'c' && str[len - 4] == '.')
+		if (str[len - 1] == 'b' && str[len - 2] == 'u'
+			&& str[len - 3] == 'c' && str[len - 4] == '.')
 			return (TRUE);
 	}
 	else if (mode == XPM && len > 4)
 	{
-		if (str[len - 1] == 'm' && str[len - 2] == 'p' && str[len - 3] == 'x' && str[len - 4] == '.')
+		if (str[len - 1] == 'm' && str[len - 2] == 'p'
+			&& str[len - 3] == 'x' && str[len - 4] == '.')
 			return (TRUE);
 	}
 	return (FALSE);
@@ -68,7 +70,7 @@ void	flag_increase(t_map *map)
 
 char	*remove_eol(char *line)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (line[i] != '\0')
