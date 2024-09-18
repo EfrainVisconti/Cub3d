@@ -6,7 +6,7 @@
 /*   By: eviscont <eviscont@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 19:23:50 by eviscont          #+#    #+#             */
-/*   Updated: 2024/09/18 22:27:43 by eviscont         ###   ########.fr       */
+/*   Updated: 2024/09/18 22:35:33 by eviscont         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,5 +64,5 @@ char	*remove_eol(char *line)
 
 void	print_error_aux(void)
 {
-	ft_printf("Error\nMissing elements or map is not last\n");
+	ft_printf("Error\nMissing elements or map is not the last\n");
 }

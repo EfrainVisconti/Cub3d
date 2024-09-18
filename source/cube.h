@@ -203,6 +203,7 @@ typedef struct s_draw
 }			t_draw;
 
 /* Utils */
+int		valid_extension(char *str, int mode);
 int		ft_close(void *param);
 void	ft_free_cub(char *str, t_map *cub, int mode);
 
