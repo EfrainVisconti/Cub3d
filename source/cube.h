@@ -263,6 +263,6 @@ void	flag_increase(t_map *map);
 char	*remove_eol(char *line);
 int		rgb_to_hex(int r, int g, int b);
 /* Print_aux */
-void	print_aux(t_map *map);
+void	print_aux(t_map *map, int mode);
 
 #endif

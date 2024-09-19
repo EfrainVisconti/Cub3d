@@ -6,17 +6,19 @@
 /*   By: eviscont <eviscont@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:57:32 by eviscont          #+#    #+#             */
-/*   Updated: 2024/09/19 17:20:45 by eviscont         ###   ########.fr       */
+/*   Updated: 2024/09/19 21:52:15 by eviscont         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube.h"
 
-void	print_aux(t_map *map)
+void	print_aux(t_map *map, int mode)
 {
 	int	i;
 
 	i = -1;
+	if (mode == 0)
+		return ;
 	ft_printf("GNL: %s\n", map->map_line);
 	ft_printf("Map:\n");
 	while (map->map[++i])

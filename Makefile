@@ -31,7 +31,7 @@ SRC_FILE       = main.c game.c raycasting.c textures.c draw.c move.c init_parsin
 
 SRC_FILE_BONUS	= main_bonus.c game_bonus.c raycasting_bonus.c textures_bonus.c draw_bonus.c move_bonus.c \
 				 init_parsing_bonus.c utils_parsing_bonus.c parse_map_bonus.c parse_elements_bonus.c \
-				 check_map_bonus.c validate_map_bonus.c
+				 check_map_bonus.c validate_map_bonus.c mouse_bonus.c
 
 SRC            = $(addprefix $(SRC_DIR), $(SRC_FILE))
 OBJ_FILE       = $(SRC_FILE:.c=.o)
