@@ -6,7 +6,7 @@
 /*   By: usuario <usuario@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 17:47:40 by eviscont          #+#    #+#             */
-/*   Updated: 2024/09/19 01:06:10 by usuario          ###   ########.fr       */
+/*   Updated: 2024/09/19 05:21:48 by usuario          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,13 @@ int	check_map_walls_aux(t_map *map, int sec, int nlast)
 	int	str_last;
 	int	aux;
 
-	str_last = 0;
 	while (sec <= nlast)
 	{
 		i = 0;
-		aux = str_last;
 		str_last = ft_strlen(map->gamemap[sec]) - 1;
-		if (str_last > aux)
-			map->map_size[1] = str_last + 1;
+		aux = str_last + 1;
+		if (map->map_size[1] < aux)
+			map->map_size[1] = aux;
 		while (map->gamemap[sec][i] == ' ')
 			i++;
 		if (map->gamemap[sec][i] != '1' && map->gamemap[sec][i] != '\0')

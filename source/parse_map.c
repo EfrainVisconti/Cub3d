@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eviscont <eviscont@student.42.fr>          +#+  +:+       +#+        */
+/*   By: usuario <usuario@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 17:34:54 by eviscont          #+#    #+#             */
-/*   Updated: 2024/09/18 18:40:04 by eviscont         ###   ########.fr       */
+/*   Updated: 2024/09/19 05:01:08 by usuario          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,25 @@ int	check_items(char *line, t_map *map)
 	return (TRUE);
 }
 
+int	only_spaces_line(char *line)
+{
+	int	i;
+
+	i = 0;
+	while (line[i] != '\0')
+	{
+		if (line[i] != ' ' && line[i] != '\n')
+			return (FALSE);
+		i++;
+	}
+	return (TRUE);
+}
+
 int	parse_map(t_map *map, char *line)
 {
 	char	*temp;
 
-	if (line && line[0] == '\n')
+	if (line && (line[0] == '\n'))// || only_spaces_line(line)))
 	{
 		free(line);
 		line = ft_strdup("$\n");
