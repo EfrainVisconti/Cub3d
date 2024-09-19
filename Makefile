@@ -97,6 +97,14 @@ fclean: clean
 	@echo "$(GREEN)✔ $(BLUE)$(USER_NAME)'s $(PURPLE)$(NAME)$(BLUE) executable file and .o files removal$(DEF_COLOR)"
 	@$(MAKE) -C $(LIBFT_DIR) fclean
 
+bonus_clean:
+	@$(RM) -r $(OBJ_BONUS)
+
+bonus_fclean: bonus_clean
+	@$(RM) $(NAME_BONUS)
+	@$(MAKE) -C $(LIBFT_DIR) fclean
+	@$(MAKE) -C $(MINILIBX_DIR) clean
+
 re: fclean all
 
 .PHONY: all clean fclean re
