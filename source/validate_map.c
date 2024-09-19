@@ -3,31 +3,60 @@
 /*                                                        :::      ::::::::   */
 /*   validate_map.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: usuario <usuario@student.42.fr>            +#+  +:+       +#+        */
+/*   By: eviscont <eviscont@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 17:47:40 by eviscont          #+#    #+#             */
-/*   Updated: 2024/09/19 05:21:48 by usuario          ###   ########.fr       */
+/*   Updated: 2024/09/19 19:50:55 by eviscont         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube.h"
+
+int	check_if_open(t_map *map, size_t last)
+{
+	size_t	i;
+	size_t	j;
+	size_t	cur_len;
+
+	j = 0;
+	while (map->gamemap[j] != NULL)
+	{
+		i = 0;
+		cur_len = ft_strlen(map->gamemap[j]);
+		while (map->gamemap[j][i] != '\0')
+		{
+			if (j > 0 && cur_len > ft_strlen(map->gamemap[j - 1]) \
+			&& i > ft_strlen(map->gamemap[j - 1]) - 1 \
+			&& map->gamemap[j][i] != '1')
+				return (FALSE);
+			if (j < last && cur_len > ft_strlen(map->gamemap[j + 1]) \
+			&& i > ft_strlen(map->gamemap[j + 1]) - 1 \
+			&& map->gamemap[j][i] != '1')
+				return (FALSE);
+			i++;
+		}
+		j++;
+	}
+	return (TRUE);
+}
 
 int	check_map_spaces(t_map *map, int last)
 {
 	int	i;
 	int	j;
 
-	j = 1;
-	while (j < last)
+	j = 0;
+	while (j <= last)
 	{
 		i = 0;
 		while (map->gamemap[j][i] != '\0')
 		{
-			if (map->gamemap[j][i] == ' ' && i != 0)
+			if (map->gamemap[j][i] == '0')
 			{
-				if (map->gamemap[j - 1][i] == '0' || \
-				map->gamemap[j + 1][i] == '0' || map->gamemap[j][i + 1] == '0' \
-				|| map->gamemap[j][i - 1] == '0')
+				if ((j > 0 && map->gamemap[j - 1][i] == ' ') || \
+				(j < last && map->gamemap[j + 1][i] == ' ') || \
+				(i > 0 && map->gamemap[j][i - 1] == ' ') || \
+				(map->gamemap[j][i + 1] == ' '))
 					return (FALSE);
 			}
 			i++;
@@ -54,7 +83,7 @@ int	check_map_walls_aux(t_map *map, int sec, int nlast)
 			i++;
 		if (map->gamemap[sec][i] != '1' && map->gamemap[sec][i] != '\0')
 			return (FALSE);
-		while (map->gamemap[sec][str_last] == ' ')
+		while (map->gamemap[sec][str_last] == ' ' && str_last != 0)
 			str_last--;
 		if (map->gamemap[sec][str_last] != '1' && map->gamemap[sec][i] != '\0')
 			return (FALSE);
@@ -94,6 +123,8 @@ int	validate_map(t_map *map)
 	map->map_size[0] = map_len;
 	if (!check_map_walls(map, map_len - 1))
 		return (ft_printf("Error\nInvalid map walls\n"), FALSE);
+	if (!check_if_open(map, map_len - 1))
+		return (ft_printf("Error\nMap is open\n"), FALSE);
 	if (!check_map_spaces(map, map_len - 1))
 		return (ft_printf("Error\nInvalid map spaces\n"), FALSE);
 	return (TRUE);

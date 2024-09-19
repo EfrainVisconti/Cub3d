@@ -6,7 +6,7 @@
 /*   By: eviscont <eviscont@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 17:34:54 by eviscont          #+#    #+#             */
-/*   Updated: 2024/09/19 16:54:02 by eviscont         ###   ########.fr       */
+/*   Updated: 2024/09/19 18:19:23 by eviscont         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	parse_map(t_map *map, char *line)
 		line = ft_strdup("$\n");
 	}
 	if (line != NULL && !check_items(line, map))
-		return (FALSE);
+		return (free(line), FALSE);
 	if (line != NULL)
 	{
 		temp = ft_strdup(map->map_line);
