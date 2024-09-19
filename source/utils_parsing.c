@@ -6,7 +6,7 @@
 /*   By: eviscont <eviscont@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 19:23:50 by eviscont          #+#    #+#             */
-/*   Updated: 2024/09/18 22:35:33 by eviscont         ###   ########.fr       */
+/*   Updated: 2024/09/19 16:53:52 by eviscont         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ char	*remove_eol(char *line)
 	return (line);
 }
 
-void	print_error_aux(void)
+int	rgb_to_hex(int r, int g, int b)
 {
-	ft_printf("Error\nMissing elements or map is not the last\n");
+	return (0xFF000000 | r << 16 | g << 8 | b);
 }

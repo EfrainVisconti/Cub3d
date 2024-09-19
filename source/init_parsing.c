@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_parsing.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: usuario <usuario@student.42.fr>            +#+  +:+       +#+        */
+/*   By: eviscont <eviscont@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 14:50:42 by eviscont          #+#    #+#             */
-/*   Updated: 2024/09/19 04:13:20 by usuario          ###   ########.fr       */
+/*   Updated: 2024/09/19 17:20:54 by eviscont         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	is_map_start(t_map *map, char *str)
 	return (flag_increase(map), TRUE);
 }
 
-void	check_line_aux(char *line, char **splited, int *ret)
+void	check_line_aux(char *line, int *ret)
 {
 	if (line && !only_spaces_line(line))
 	{
@@ -34,9 +34,8 @@ void	check_line_aux(char *line, char **splited, int *ret)
 		ft_printf("Invalid map or invalid/duplicated element found\n");
 		*ret = FALSE;
 	}
-	*ret = TRUE;
-	ft_free2dstr(splited);
-	free(line);
+	else
+		*ret = TRUE;
 }
 
 int	check_line(t_map *map, char *line, int ret)
@@ -62,7 +61,7 @@ int	check_line(t_map *map, char *line, int ret)
 		map->start_map = TRUE;
 	}
 	else
-		check_line_aux(line, splited, &ret);
+		check_line_aux(line, &ret);
 	ft_free2dstr(splited);
 	free(line);
 	return (ret);

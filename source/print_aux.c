@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_aux.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: usuario <usuario@student.42.fr>            +#+  +:+       +#+        */
+/*   By: eviscont <eviscont@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:57:32 by eviscont          #+#    #+#             */
-/*   Updated: 2024/09/19 01:19:30 by usuario          ###   ########.fr       */
+/*   Updated: 2024/09/19 17:20:45 by eviscont         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	print_aux(t_map *map)
 	ft_printf("Gamemap:\n");
 	while (map->gamemap[++i])
 		ft_printf("%d:%s\n", i, map->gamemap[i]);
-	ft_printf("C: %d\nF: %d\n", map->c, map->f);
+	ft_printf("C: %x\nF: %x\n", map->c, map->f);
 	ft_printf("NO: %s\n", map->no);
 	ft_printf("SO: %s\n", map->so);
 	ft_printf("WE: %s\n", map->we);

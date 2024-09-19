@@ -3,19 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parse_elements.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: usuario <usuario@student.42.fr>            +#+  +:+       +#+        */
+/*   By: eviscont <eviscont@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 17:27:25 by eviscont          #+#    #+#             */
-/*   Updated: 2024/09/19 03:56:19 by usuario          ###   ########.fr       */
+/*   Updated: 2024/09/19 16:51:22 by eviscont         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube.h"
-
-int	rgb_to_hex(int r, int g, int b)
-{
-	return (r << 24 | g << 16 | b << 8 | 0xFF);
-}
 
 int	coma_errors(char *str, int mode)
 {
@@ -24,16 +19,15 @@ int	coma_errors(char *str, int mode)
 	aux = 0;
 	while (str[aux] != '\0')
 	{
-		if (str[aux] == ',' && (str[aux + 1] == ','
-			|| aux == 0))
+		if (str[aux] == ',' && (str[aux + 1] == ',' || aux == 0))
 			return (TRUE);
 		aux++;
 	}
 	if (mode == 1)
 	{
 		aux = ft_strlen(str);
-			if (str[aux - 1] == ',')
-		return (TRUE);
+		if (str[aux - 1] == ',')
+			return (TRUE);
 	}
 	return (FALSE);
 }
@@ -44,23 +38,17 @@ int	parse_fc_loop(t_map *map, char **splited, int i[4])
 
 	while (splited[i[0]] != NULL)
 	{
-		//ft_printf("A%d: %s\n", i[0], splited[i[0]]);
 		if ((i[0] < i[3] - 1 && ft_strchr(splited[i[0]], ',') \
 			&& !coma_errors(splited[i[0]], 0)) || \
 			(i[0] == i[3] - 1 && !coma_errors(splited[i[0]], 1)))
 		{
 			aux = ft_split(splited[i[0]], ',');
-			//int j = -1;
-			//while (aux[++j])
-			//	ft_printf("B%d: %s\n", j, aux[j]);
 			if (ft_str2dlen(aux) > 3)
 				return (ft_free2dstr(aux), FALSE);
 			i[1] = 0;
 			while (aux[i[1]] != NULL && aux[i[1]][0] != '\0')
 			{
-				//ft_printf("C%d: %s\n", i[1], aux[i[1]]);
 				map->fc_aux[++i[2]] = cubed_atoi(aux[i[1]]);
-				//ft_printf("D%d: %d\n", i[2], map->fc_aux[i[2]]);
 				i[1]++;
 			}
 			ft_free2dstr(aux);

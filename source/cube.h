@@ -231,18 +231,19 @@ void	ft_move_forward_backward(t_data *dt, double movespeed, int sign);
 int		init_parsing(t_map *map, char *str, int fd, char *line);
 char	*tabs_handler(char *str, int i, int j, int tabs);
 int		check_line(t_map *map, char *line, int ret);
-void	check_line_aux(char *line, char **splited, int *ret);
+void	check_line_aux(char *line, int *ret);
 int		is_map_start(t_map *map, char *str);
 /* Parse_elements */
 int		parse_textures(t_map *map, char **splited, int mode);
 int		parse_floor_ceiling(t_map *map, char **splited, int mode);
 int		parse_fc_aux(t_map *map, char **splited, int i[4]);
 int		parse_fc_loop(t_map *map, char **splited, int i[4]);
-int		rgb_to_hex(int r, int g, int b);
+int		coma_errors(char *str, int mode);
 /* Parse_map */
 int		parse_map(t_map *map, char *line);
-int		only_spaces_line(char *line);
 int		check_items(char *line, t_map *map);
+int		only_spaces_line(char *line);
+void	print_error_aux(void);
 /* Check_map */
 int		check_map(t_map *map);
 int		check_empty_lines(char *line, int i, int found_doll);
@@ -259,7 +260,8 @@ int		ft_strcmp(char *s1, char *s2);
 int		cubed_atoi(const char *str);
 void	flag_increase(t_map *map);
 char	*remove_eol(char *line);
-void	print_error_aux(void);
+int		rgb_to_hex(int r, int g, int b);
 /* Print_aux */
 void	print_aux(t_map *map);
+
 #endif

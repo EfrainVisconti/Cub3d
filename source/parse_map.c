@@ -3,14 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: usuario <usuario@student.42.fr>            +#+  +:+       +#+        */
+/*   By: eviscont <eviscont@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 17:34:54 by eviscont          #+#    #+#             */
-/*   Updated: 2024/09/19 05:01:08 by usuario          ###   ########.fr       */
+/*   Updated: 2024/09/19 16:54:02 by eviscont         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube.h"
+
+void	print_error_aux(void)
+{
+	ft_printf("Error\nMissing elements or map is not the last\n");
+}
+
+int	only_spaces_line(char *line)
+{
+	int	i;
+
+	i = 0;
+	while (line[i] != '\0')
+	{
+		if (line[i] != ' ' && line[i] != '\n')
+			return (FALSE);
+		i++;
+	}
+	return (TRUE);
+}
 
 int	check_items(char *line, t_map *map)
 {
@@ -31,25 +50,11 @@ int	check_items(char *line, t_map *map)
 	return (TRUE);
 }
 
-int	only_spaces_line(char *line)
-{
-	int	i;
-
-	i = 0;
-	while (line[i] != '\0')
-	{
-		if (line[i] != ' ' && line[i] != '\n')
-			return (FALSE);
-		i++;
-	}
-	return (TRUE);
-}
-
 int	parse_map(t_map *map, char *line)
 {
 	char	*temp;
 
-	if (line && (line[0] == '\n'))// || only_spaces_line(line)))
+	if (line && line[0] == '\n')
 	{
 		free(line);
 		line = ft_strdup("$\n");
