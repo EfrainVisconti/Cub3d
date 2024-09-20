@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_parsing.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eviscont <eviscont@student.42.fr>          +#+  +:+       +#+        */
+/*   By: usuario <usuario@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 14:50:42 by eviscont          #+#    #+#             */
-/*   Updated: 2024/09/19 17:20:54 by eviscont         ###   ########.fr       */
+/*   Updated: 2024/09/21 00:12:38 by usuario          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	is_map_start(t_map *map, char *str)
 	i = 0;
 	while (str[i] != '\0')
 	{
-		if (str[i] != '1' && str[i] != '0' && str[i] != '\n')
+		if (str[i] != '1' && str[i] != '0')
 			return (FALSE);
 		i++;
 	}
