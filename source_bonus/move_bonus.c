@@ -94,12 +94,15 @@ int	ft_move(t_data *data)
 {
 	double	movespeed;
 	double	rotspeed;
+	int		x;
+	int		y;
 
 	movespeed = MOV_SPEED;
 	rotspeed = ROTATIONSPEED;
-	if (data->player.rotate_right)
+	mlx_mouse_get_pos(data->mlx, data->mlx_w, &x, &y);
+	if (data->player.rotate_right || x > SCREENW / 2 + SCREENW * 0.2)
 		ft_move_rotate(data, rotspeed, RIGHT);
-	if (data->player.rotate_left)
+	if (data->player.rotate_left || x < SCREENW / 2 - SCREENW * 0.2)
 		ft_move_rotate(data, rotspeed, LEFT);
 	if (data->player.forward)
 		ft_move_forward_backward(data, movespeed, FORWARD);

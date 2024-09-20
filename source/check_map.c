@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eviscont <eviscont@student.42.fr>          +#+  +:+       +#+        */
+/*   By: usuario <usuario@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 17:41:38 by eviscont          #+#    #+#             */
-/*   Updated: 2024/09/19 21:53:02 by eviscont         ###   ########.fr       */
+/*   Updated: 2024/09/20 03:35:49 by usuario          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,6 @@ int	check_map(t_map *map)
 	if (!validate_map(map))
 		return (FALSE);
 	get_player_pos_dir(map);
-	print_aux(map, 0);
+	print_aux(map, FALSE);
 	return (TRUE);
 }

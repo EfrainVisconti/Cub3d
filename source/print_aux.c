@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_aux.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eviscont <eviscont@student.42.fr>          +#+  +:+       +#+        */
+/*   By: usuario <usuario@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:57:32 by eviscont          #+#    #+#             */
-/*   Updated: 2024/09/19 21:52:15 by eviscont         ###   ########.fr       */
+/*   Updated: 2024/09/20 03:35:59 by usuario          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	print_aux(t_map *map, int mode)
 	int	i;
 
 	i = -1;
-	if (mode == 0)
+	if (mode == FALSE)
 		return ;
 	ft_printf("GNL: %s\n", map->map_line);
 	ft_printf("Map:\n");
