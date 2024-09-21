@@ -6,7 +6,7 @@
 /*   By: usuario <usuario@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 17:41:38 by eviscont          #+#    #+#             */
-/*   Updated: 2024/09/21 01:08:06 by usuario          ###   ########.fr       */
+/*   Updated: 2024/09/21 20:45:13 by usuario          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,6 @@ int	check_map(t_map *map)
 	if (!validate_map(map))
 		return (FALSE);
 	get_player_pos_dir(map);
-	print_aux(map, 1);
+	print_aux(map, FALSE);
 	return (TRUE);
 }
