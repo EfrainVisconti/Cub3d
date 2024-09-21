@@ -255,7 +255,7 @@ int		validate_map(t_map *map);
 int		check_map_walls(t_map *map, int last);
 int		check_map_walls_aux(t_map *map, int sec, int nlast);
 int		check_map_spaces(t_map *map, int last);
-int		check_if_open(t_map *map, size_t last);
+int		check_if_open(char **map, size_t last);
 /* Utils_parsing */
 int		ft_strcmp(char *s1, char *s2);
 int		cubed_atoi(const char *str);

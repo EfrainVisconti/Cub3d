@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_elements_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eviscont <eviscont@student.42.fr>          +#+  +:+       +#+        */
+/*   By: usuario <usuario@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 17:27:25 by eviscont          #+#    #+#             */
-/*   Updated: 2024/09/19 20:03:41 by eviscont         ###   ########.fr       */
+/*   Updated: 2024/09/21 23:08:47 by usuario          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,13 @@ int	coma_errors(char *str, int mode)
 			return (TRUE);
 		aux++;
 	}
-	if (mode == 1)
+	if (mode == 0)
+	{
+		aux = ft_strlen(str);
+		if (str[aux - 1] != ',')
+			return (TRUE);
+	}
+	else if (mode == 1)
 	{
 		aux = ft_strlen(str);
 		if (str[aux - 1] == ',')

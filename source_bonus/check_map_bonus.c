@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_map_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eviscont <eviscont@student.42.fr>          +#+  +:+       +#+        */
+/*   By: usuario <usuario@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 17:41:38 by eviscont          #+#    #+#             */
-/*   Updated: 2024/09/19 20:41:55 by eviscont         ###   ########.fr       */
+/*   Updated: 2024/09/21 23:01:24 by usuario          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,8 +111,10 @@ int	check_map(t_map *map)
 {
 	if (!map->start_map)
 		return (ft_printf("Error\nMissing map\n"), FALSE);
-	if (map->nbr_player != 1)
-		return (ft_printf("Error\nInvalid number of player\n"), FALSE);
+	if (map->nbr_player == 0)
+		return (ft_printf("Error\nMissing player\n"), FALSE);
+	else if (map->nbr_player > 1)
+		return (ft_printf("Error\nMore than one player\n"), FALSE);
 	if (!check_empty_lines(map->map_line, 0, FALSE))
 		return (ft_printf("Error\nInvalid map\n"), FALSE);
 	map->map = ft_split(map->map_line, '\n');

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eviscont <eviscont@student.42.fr>          +#+  +:+       +#+        */
+/*   By: usuario <usuario@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 17:34:54 by eviscont          #+#    #+#             */
-/*   Updated: 2024/09/19 20:03:37 by eviscont         ###   ########.fr       */
+/*   Updated: 2024/09/21 23:10:39 by usuario          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	parse_map(t_map *map, char *line)
 {
 	char	*temp;
 
-	if (line && line[0] == '\n')
+	if (line != NULL && line[0] == '\n')
 	{
 		free(line);
 		line = ft_strdup("$\n");

@@ -3,35 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   validate_map_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eviscont <eviscont@student.42.fr>          +#+  +:+       +#+        */
+/*   By: usuario <usuario@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 17:47:40 by eviscont          #+#    #+#             */
-/*   Updated: 2024/09/19 20:02:42 by eviscont         ###   ########.fr       */
+/*   Updated: 2024/09/21 23:13:04 by usuario          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube_bonus.h"
 
-int	check_if_open(t_map *map, size_t last)
+int	check_if_open(char **map, size_t last)
 {
 	size_t	i;
 	size_t	j;
 	size_t	cur_len;
 
 	j = 0;
-	while (map->gamemap[j] != NULL)
+	while (map[j] != NULL)
 	{
 		i = 0;
-		cur_len = ft_strlen(map->gamemap[j]);
-		while (map->gamemap[j][i] != '\0')
+		cur_len = ft_strlen(map[j]);
+		while (map[j][i] != '\0')
 		{
-			if (j > 0 && cur_len > ft_strlen(map->gamemap[j - 1]) \
-			&& i > ft_strlen(map->gamemap[j - 1]) - 1 \
-			&& map->gamemap[j][i] != '1')
+			if (j > 0 && cur_len > ft_strlen(map[j - 1]) \
+			&& i > ft_strlen(map[j - 1]) - 1 \
+			&& map[j][i] != '1' && map[j][i] != ' ')
 				return (FALSE);
-			if (j < last && cur_len > ft_strlen(map->gamemap[j + 1]) \
-			&& i > ft_strlen(map->gamemap[j + 1]) - 1 \
-			&& map->gamemap[j][i] != '1')
+			if (j < last && cur_len > ft_strlen(map[j + 1]) \
+			&& i > ft_strlen(map[j + 1]) - 1 \
+			&& map[j][i] != '1' && map[j][i] != ' ')
 				return (FALSE);
 			i++;
 		}
@@ -123,7 +123,7 @@ int	validate_map(t_map *map)
 	map->map_size[0] = map_len;
 	if (!check_map_walls(map, map_len - 1))
 		return (ft_printf("Error\nInvalid map walls\n"), FALSE);
-	if (!check_if_open(map, map_len - 1))
+	if (!check_if_open(map->gamemap, map_len - 1))
 		return (ft_printf("Error\nMap is open\n"), FALSE);
 	if (!check_map_spaces(map, map_len - 1))
 		return (ft_printf("Error\nInvalid map spaces\n"), FALSE);
