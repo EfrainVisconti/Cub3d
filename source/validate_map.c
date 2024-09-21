@@ -6,7 +6,7 @@
 /*   By: usuario <usuario@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 17:47:40 by eviscont          #+#    #+#             */
-/*   Updated: 2024/09/20 04:12:42 by usuario          ###   ########.fr       */
+/*   Updated: 2024/09/21 01:47:57 by usuario          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ int	check_if_open(t_map *map, size_t last)
 	{
 		i = 0;
 		cur_len = ft_strlen(map->gamemap[j]);
-		ft_printf("%d\n", cur_len);
 		while (map->gamemap[j][i] != '\0')
 		{
 			if (j > 0 && cur_len > ft_strlen(map->gamemap[j - 1]) \
@@ -125,10 +124,9 @@ int	validate_map(t_map *map)
 	map->map_size[0] = map_len;
 	if (!check_map_walls(map, map_len - 1))
 		return (ft_printf("Error\nInvalid map walls\n"), FALSE);
-	print_aux(map, 1);
-	if (!check_if_open(map, map_len - 1))
-		return (ft_printf("Error\nMap is open\n"), FALSE);
 	if (!check_map_spaces(map, map_len - 1))
 		return (ft_printf("Error\nInvalid map spaces\n"), FALSE);
+	// if (!check_if_open(map, map_len - 1))
+	// 	return (ft_printf("Error\nMap is open\n"), FALSE);
 	return (TRUE);
 }
